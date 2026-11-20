@@ -7,6 +7,7 @@ export const NAV_ITEMS = [
   { page: 'compass', href: './compass.html', icon: './assets/icons/menu/compass.png', key: 'compass' },
   { page: 'names', href: './names.html', icon: './assets/icons/menu/names.png', key: 'names' },
   { page: 'calendar', href: './calendar.html', icon: './assets/icons/menu/calendar.png', key: 'calendar' },
+  { page: 'missed', href: './missed.html', icon: './assets/icons/menu/missed.png', key: 'missedPrayers' },
   { page: 'dhikr', href: './dhikr.html', icon: './assets/icons/menu/dhikr.png', key: 'dhikr' },
   { page: 'settings', href: './settings.html', icon: './assets/icons/menu/settings.png', key: 'settings' },
   { page: 'about', href: './about.html', icon: './assets/icons/menu/about.png', key: 'about' },

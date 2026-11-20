@@ -32,8 +32,8 @@ const http = createHttp();
 const api = new ApiService(http);
 const cities = await new CitiesService({ storage, settings, api }).ready();
 const dhikr = await new DhikrService({ storage, i18n }).ready();
-const hijri = await new HijriService({ i18n, settings }).ready();
-const times = new TimesService({ storage, api, settings, i18n });
+const hijri = await new HijriService({ i18n, settings, api }).ready();
+const times = new TimesService({ storage, api, settings, i18n, hijri });
 
 let resolveShell = null;
 const hasShell = Boolean(document.querySelector('app-shell'));

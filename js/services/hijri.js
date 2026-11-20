@@ -59,11 +59,15 @@ function shiftISO(dateISO, days) {
 }
 
 export class HijriService {
-  constructor({ i18n, settings }) {
+  constructor({ i18n, settings, api }) {
     this.i18n = i18n;
     this.settings = settings;
+    this.api = api;
     this.data = null;
     this.readyPromise = null;
+    this.dateCache = new Map();
+    this.gregYearCache = new Map();
+    this.hijriYearCache = new Map();
   }
 
   async load() {
@@ -93,6 +97,53 @@ export class HijriService {
       calculation: overrides.calculation || this.settings.get('hijri_calculation', 'Diyanet'),
       offset: Number(overrides.offset ?? this.settings.get('hijri_day_offset', 0)),
     };
+  }
+
+  _parseHijri(value) {
+    if (!value) return null;
+    const [year, month, day] = String(value).split('-').map(Number);
+    if (![year, month, day].every(Number.isFinite)) return null;
+    return { year, month, day };
+  }
+
+  _localEvent(hijri) {
+    if (!hijri || !this.data?.events) return null;
+    return this.data.events.find((event) => event.hm === hijri.month && event.hd === hijri.day)?.key || null;
+  }
+
+  async getDateInfo(dateISO, overrides = {}) {
+    await this.load();
+    const { calculation, offset } = this.settingsFor(overrides);
+    const adjusted = offset ? shiftISO(dateISO, offset) : dateISO;
+    const isDiyanet = calculation !== 'UmmulQura' && calculation !== 'Umm al-Qura' && calculation !== 'UmmAlQura';
+
+    if (this.api && isDiyanet) {
+      const cacheKey = `${dateISO}:${offset}`;
+      if (!this.dateCache.has(cacheKey)) {
+        try {
+          const response = await this.api.date(adjusted);
+          this.dateCache.set(cacheKey, {
+            hijri: this._parseHijri(response?.hijri),
+            event: response?.event || null,
+            source: 'api',
+          });
+        } catch (error) {
+          console.warn('[hijri] API date failed, using local table', error);
+          this.dateCache.set(cacheKey, null);
+        }
+      }
+      const cached = this.dateCache.get(cacheKey);
+      if (cached?.hijri) {
+        return { date: dateISO, hijri: cached.hijri, event: cached.event, calculation: 'Diyanet', source: 'api' };
+      }
+    }
+
+    const hijri = this.toHijri(dateISO, overrides);
+    return { date: dateISO, hijri, event: this._localEvent(hijri), calculation: hijri.calculation, source: 'local' };
+  }
+
+  async getHijri(dateISO, overrides = {}) {
+    return (await this.getDateInfo(dateISO, overrides)).hijri;
   }
 
   toHijri(dateISO, overrides = {}) {
@@ -150,6 +201,30 @@ export class HijriService {
 
   async eventsForHijriYear(year, overrides = {}) {
     await this.load();
+    const { calculation, offset } = this.settingsFor(overrides);
+    const isDiyanet = calculation !== 'UmmulQura' && calculation !== 'Umm al-Qura' && calculation !== 'UmmAlQura';
+    if (this.api && isDiyanet && offset === 0) {
+      if (!this.hijriYearCache.has(year)) {
+        try {
+          const response = await this.api.hijriYear(year);
+          const entries = (Array.isArray(response) ? response : [])
+            .map((entry) => ({
+              date: entry.date,
+              hijri: this._parseHijri(entry.hijri),
+              key: entry.event || 'MONTH',
+              source: 'api',
+            }))
+            .filter((entry) => entry.date && entry.hijri);
+          this.hijriYearCache.set(year, entries);
+        } catch (error) {
+          console.warn('[hijri] API year failed, using local table', error);
+          this.hijriYearCache.set(year, null);
+        }
+      }
+      const cached = this.hijriYearCache.get(year);
+      if (cached) return cached.sort((a, b) => a.date.localeCompare(b.date));
+    }
+
     const events = [];
     for (const event of this.data.events) {
       const date = this.fromHijri(year, event.hm, event.hd, overrides);
@@ -164,6 +239,30 @@ export class HijriService {
 
   async eventsForGregYear(year, overrides = {}) {
     await this.load();
+    const { calculation, offset } = this.settingsFor(overrides);
+    const isDiyanet = calculation !== 'UmmulQura' && calculation !== 'Umm al-Qura' && calculation !== 'UmmAlQura';
+    if (this.api && isDiyanet && offset === 0) {
+      if (!this.gregYearCache.has(year)) {
+        try {
+          const response = await this.api.gregYear(year);
+          const entries = (Array.isArray(response) ? response : [])
+            .map((entry) => ({
+              date: entry.date,
+              hijri: this._parseHijri(entry.hijri),
+              key: entry.event || 'MONTH',
+              source: 'api',
+            }))
+            .filter((entry) => entry.date && entry.hijri);
+          this.gregYearCache.set(year, entries);
+        } catch (error) {
+          console.warn('[hijri] API year failed, using local table', error);
+          this.gregYearCache.set(year, null);
+        }
+      }
+      const cached = this.gregYearCache.get(year);
+      if (cached) return cached.sort((a, b) => a.date.localeCompare(b.date));
+    }
+
     const events = [];
     const eventSet = new Set(this.data.events.map((e) => `${e.hm}-${e.hd}`));
     let date = `${year}-01-01`;
@@ -182,9 +281,8 @@ export class HijriService {
   }
 
   async todayEvent(dateISO, overrides = {}) {
-    await this.load();
-    const hijri = this.toHijri(dateISO, overrides);
-    const event = this.data.events.find((e) => e.hm === hijri.month && e.hd === hijri.day);
-    return event ? { ...event, hijri } : null;
+    const info = await this.getDateInfo(dateISO, overrides);
+    if (!info.event || info.event === 'MONTH') return null;
+    return { key: info.event, hijri: info.hijri };
   }
 }

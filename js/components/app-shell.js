@@ -30,11 +30,7 @@ class AppShell extends HTMLElement {
             ${iconSvg('menu')}
           </button>
           <h1 class="app-bar__title">${pageTitle}</h1>
-          <div class="app-bar__actions">
-            <button class="icon-btn" type="button" data-theme-toggle aria-label="${PT.i18n.t('web.nightMode')}">
-              ${iconSvg(PT.theme.effective === 'dark' ? 'sun' : 'moon')}
-            </button>
-          </div>
+          <div class="app-bar__actions"></div>
         </header>
         <div class="drawer-scrim" data-drawer-scrim></div>
         <aside class="drawer" id="drawer" aria-label="${PT.i18n.t('web.appTitle')}" aria-hidden="true">
@@ -70,8 +66,6 @@ class AppShell extends HTMLElement {
     hydrateIcons(this);
     PT.i18n.apply(this);
     this._wire(page);
-    this._updateThemeIcon();
-
     window.dispatchEvent(new CustomEvent('pt:shell-ready', { detail: this }));
     PT.resolveShell?.();
   }
@@ -82,7 +76,6 @@ class AppShell extends HTMLElement {
     this.scrim = this.querySelector('[data-drawer-scrim]');
     this.main = this.querySelector('#app-main');
     this.closeButton = this.querySelector('[data-drawer-close]');
-    this.themeButton = this.querySelector('[data-theme-toggle]');
 
     this.menuButton?.addEventListener('click', () => this.openDrawer());
     this.closeButton?.addEventListener('click', () => this.closeDrawer());
@@ -128,21 +121,13 @@ class AppShell extends HTMLElement {
     window.addEventListener('resize', this._onResize);
     this._onResize();
 
-    const themeHandler = () => this._updateThemeIcon();
-    window.addEventListener('pt:themechange', themeHandler);
     this._cleanup = () => {
       document.removeEventListener('keydown', this._onKeydown);
       window.removeEventListener('resize', this._onResize);
-      window.removeEventListener('pt:themechange', themeHandler);
     };
 
     // Keep the page heading in sync with the active nav item when the shell is reused.
     this._page = page;
-  }
-
-  _updateThemeIcon() {
-    if (!this.themeButton) return;
-    this.themeButton.innerHTML = iconSvg(PT.theme.effective === 'dark' ? 'sun' : 'moon');
   }
 
   openDrawer() {

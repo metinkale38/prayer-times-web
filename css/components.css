@@ -1836,3 +1836,159 @@ html[data-theme='dark'] .compass-dial__north span {
     font-size: 13px;
   }
 }
+
+/* Compass location gate + close satellite view */
+.compass-gate {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--fg-2);
+}
+
+.compass-gate .icon {
+  width: 64px;
+  height: 64px;
+  color: var(--link);
+}
+
+.compass-gate h2 {
+  color: var(--fg);
+  font-size: 1.35rem;
+}
+
+.compass-gate p {
+  max-width: 420px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.compass-gate .btn {
+  margin-top: 4px;
+}
+
+.compass-gate__error {
+  color: var(--alert) !important;
+  min-height: 1.5em;
+}
+
+.compass-map-wrap {
+  isolation: isolate;
+  position: relative;
+  z-index: 0;
+}
+
+.compass-body {
+  position: relative;
+  z-index: 1;
+}
+
+/* Missed prayers --------------------------------------------------------- */
+.missed-page {
+  min-height: calc(100dvh - var(--bar-height) - var(--safe-top));
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-2);
+  padding: 2px 5px 8px;
+}
+
+.missed-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.missed-row {
+  flex: 1;
+  min-height: 66px;
+  display: grid;
+  grid-template-columns: 56px 1fr 56px;
+  grid-template-rows: auto 1fr;
+  align-items: center;
+  background: var(--surface);
+  padding: 4px 50px;
+}
+
+.missed-row__title {
+  grid-column: 1 / -1;
+  padding-top: 5px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--fg);
+}
+
+.missed-btn {
+  grid-row: 2;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: var(--link);
+}
+
+.missed-btn[data-minus] {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.missed-btn[data-plus] {
+  grid-column: 3;
+  justify-self: end;
+}
+
+.missed-btn:hover {
+  background: var(--surface-2);
+}
+
+.missed-row__value {
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  text-align: center;
+  font-size: clamp(1.6rem, 6vmin, 2.6rem);
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+
+.missed-row__value::-webkit-inner-spin-button,
+.missed-row__value::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.missed-row__value {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.missed-updated,
+.missed-hint {
+  flex: none;
+  padding: 4px 8px;
+  text-align: center;
+  color: var(--fg-2);
+  font-size: 12px;
+}
+
+@media (max-width: 360px) {
+  .missed-row {
+    padding-inline: 12px;
+    grid-template-columns: 48px 1fr 48px;
+  }
+}

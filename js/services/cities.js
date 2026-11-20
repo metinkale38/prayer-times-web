@@ -125,7 +125,7 @@ export class CitiesService {
     await this.settings.set('last_city', key || null);
   }
 
-  async resolveLocation() {
+  async nearbyFromDevice() {
     if (!navigator.geolocation) throw new Error('geolocation-unavailable');
     const position = await new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -135,6 +135,11 @@ export class CitiesService {
       });
     });
     const results = await this.api.nearby(position.coords.latitude, position.coords.longitude);
+    return results;
+  }
+
+  async resolveLocation() {
+    const results = await this.nearbyFromDevice();
     if (!results.length) throw new Error('no-city-found');
     return results[0];
   }

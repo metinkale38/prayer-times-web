@@ -15,6 +15,7 @@ function activePrayerKey(next, today) {
 
 function sourceMarkup(provider) {
   const meta = sourceMeta(provider);
+  if (provider === 'Calc') return '';
   if (meta.logo) {
     return `
       <img class="city-card__source city-card__source--left" src="${meta.logo}" alt="${escapeHtml(meta.label)}" width="56" height="56">
@@ -61,7 +62,7 @@ export function updateCityCard(card, city, data) {
   const use12h = settings.get('use12h', false);
   const { today, rows, next, kerahat } = data;
 
-  const hijri = PT.hijri.toHijri(today);
+  const hijri = data.hijri || PT.hijri.toHijri(today);
   card.querySelector('.city-card__date [data-fit-text]').textContent = formatGregorian(today, settings.get('dateformat', 'DD MMM YYYY'), { i18n, numbers });
   card.querySelector('.city-card__city [data-fit-text]').textContent = city.name;
   card.querySelector('.city-card__hijri [data-fit-text]').textContent = formatHijri(hijri, settings.get('hdateformat', 'DD MMM YYYY'), { i18n, numbers });
@@ -92,11 +93,10 @@ export function updateCityCard(card, city, data) {
   }
 
   const meta = card.querySelector('.city-card__meta');
-  const standalone = `./city.html?provider=${encodeURIComponent(city.provider)}&id=${encodeURIComponent(city.id)}&lang=${encodeURIComponent(i18n.lang)}`;
-  meta.innerHTML = `
-    <span>${escapeHtml(sourceMeta(city.provider).label)}</span>
-    <a href="${standalone}" target="_blank" rel="noopener">${escapeHtml(i18n.t('web.openStandalone'))}</a>
-  `;
+  if (meta) {
+    meta.hidden = true;
+    meta.innerHTML = '';
+  }
 
   card.dataset.today = today;
   card._city = city;

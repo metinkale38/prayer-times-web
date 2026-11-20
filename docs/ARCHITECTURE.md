@@ -20,9 +20,10 @@
 | `names.html` | app shell | 99 names grid + search |
 | `dhikr.html` | app shell | multiple counters |
 | `calendar.html` | app shell | Hijri/Gregorian holidays |
+| `missed.html` | app shell | missed-prayer / Witr / fasting counters |
 | `settings.html` | app shell | preferences |
 | `about.html` | app shell | credits, licences, storage |
-| `city.html?provider=&id=` | standalone | one city, no app chrome |
+| `city.html?provider=&id=&name=` | standalone | one city, no app chrome |
 | any page `?embed=1` | none | hides app bar/drawer |
 
 ## Module layers
@@ -33,7 +34,7 @@ pages → components → services → core → adapters
 
 - `js/pages/*` boot one page.
 - `js/components/*` UI; no direct persistence.
-- `js/services/*` domain logic: API, cities, times, Hijri, qibla, dhikr.
+- `js/services/*` domain logic: API, cities, times (official + local adhan), Hijri, qibla, dhikr.
 - `js/core/*` infrastructure: storage, HTTP, i18n, theme, formatting, icons.
 - `js/core/adapters` and HTTP adapters are platform-specific.
 
@@ -55,6 +56,10 @@ components/city-card.js → DOM
 - API calls are deduplicated, limited to 2 concurrent requests and retried on
   429/5xx with backoff.
 - Cache key: `pt:v1:times:<provider>:<id>`.
+- `Calc` cities are computed locally with `adhan.js` for the whole month (and a
+  rolling window); official providers use the API cache.
+- Hijri dates/events use `/date/...` and `/hijri/...` from Open Prayer Times,
+  with the bundled table as offline fallback.
 - Refresh when today is missing, fewer than 15 days remain, or the cache is
   older than 7 days. The API day window is stored as received.
 - Times are local wall times. Countdown uses the city IANA timezone via a small
@@ -75,6 +80,8 @@ Stores: `settings`, `cities`, `dhikr`, `times:*`, `city:*`, `ui`.
 ## i18n & theme
 
 - `data/i18n/{de,en,tr}.json`; Android keys reused, web-only keys prefixed `web.`.
+- The app-bar theme toggle was removed on purpose; theme is system-driven or set
+  in Settings only.
 - `i18n.apply(document)` handles `data-i18n*` attributes; dynamic strings use
   `i18n.t()` and Android-style `%1$s` formatting.
 - Theme: `pt.theme` (`system|light|dark`) plus `pt:v1:settings.theme`.
@@ -102,6 +109,8 @@ There is no compilation step:
 
 - Local/LAN: `node tools/dev-server.mjs` (proxy `/api`).
 - Smoke: `npm run test:smoke` (optional Playwright).
+- Compass: location gate, no manual heading; sensor message if unavailable.
+- Map: default Esri satellite at house-level zoom (18), Qibla line as great circle.
 - Manual/visual: compare against the Android AVD and store screenshots.
 - Offline: load a city once, enable offline in DevTools, reload; cached times and
   the app shell should still render.
@@ -113,8 +122,8 @@ There is no compilation step:
 ## Extension points
 
 - Additional language: add JSON + `SUPPORTED` + settings option.
-- Local astronomical calculation (`Calc`): add a `CalcProvider` implementing the
-  same `getDay/getRange` contract and route it for cities without official data.
+- `Calc` already uses adhan.js; swap the provider or add more methods/presets as
+  needed.
 - Native storage: provide `window.PrayerTimesAndroid` and the JS adapters switch
   automatically.
 - Native HTTP: provide `httpGet(url)` to bypass CORS in WebView.

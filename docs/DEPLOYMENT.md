@@ -56,7 +56,8 @@ node tools/dev-server.mjs
 
 Plain HTTP on a LAN is not a secure context. PWA install/service worker,
 geolocation and some sensors may be unavailable. Prayer times, city search,
-names, dhikr, calendar, settings and the manual compass work.
+names, dhikr, calendar, missed prayers and settings work. The compass requires
+HTTPS/localhost because it depends on geolocation and device orientation.
 
 The dev server has no authentication; only expose it on trusted networks.
 
@@ -68,7 +69,11 @@ The dev server has no authentication; only expose it on trusted networks.
 | Pages deploy fails at configure-pages | Enable Pages → GitHub Actions in repository settings. |
 | Stale CSS/JS after deploy | Bump `CACHE_VERSION` in `sw.js`; hard reload. |
 | No PWA/install prompt on LAN | Plain HTTP is not a secure context. Use HTTPS or localhost. |
-| Geolocation/compass unavailable on LAN | Secure-context restriction; use manual city/search and manual heading. |
+| Compass shows the location gate on LAN | Geolocation/compass require a secure context. Open the live HTTPS URL via the link in the gate. |
+| Compass sensor unavailable | The page shows the Qibla angle numerically; there is intentionally no manual heading control. |
+| City search nearby shows many entries | Pick the desired provider (Diyanet, IGMG, NVC, Semerkand, Calc). Auto-location no longer preselects a source. |
+| Calculated times differ from official times | `Calc` uses adhan.js locally; official providers are separate sources. |
+| Satellite map is too far/too close | Default is Esri World Imagery at zoom 18; use the layer control/locate button. Google Maps needs an API key and is not enabled. |
 | Month view starts at today | The API only provides a rolling window from today; this is expected. |
 | Map tiles fail offline | Satellite tiles need network; the Qibla line/bearing still works in 2D. |
 

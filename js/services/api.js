@@ -6,7 +6,7 @@ export const SOURCE_META = {
   London: { label: 'LondonPrayerTimes.com', logo: null },
   NVC: { label: 'NamazVakti.com', logo: './assets/img/source-nvc.png' },
   Semerkand: { label: 'SemerkandTakvimi', logo: './assets/img/source-semerkand.png' },
-  Calc: { label: 'Calc', logo: null, unsupported: true },
+  Calc: { label: 'Calc', logo: null, calculated: true },
   CSV: { label: 'CSV', logo: null, unsupported: true },
 };
 
@@ -39,6 +39,12 @@ export function normalizeCity(raw, providerHint = null) {
     timezone: raw.timezone || 'UTC',
     key: `${provider}:${raw.id}`,
     unsupported: Boolean(SOURCE_META[provider]?.unsupported),
+    calculated: Boolean(SOURCE_META[provider]?.calculated),
+    calcMethod: (() => {
+      if (provider !== 'Calc') return null;
+      const parts = String(raw.id).split(';');
+      return parts.length >= 5 ? parts[4] : 'MWL';
+    })(),
   };
 }
 
@@ -63,6 +69,34 @@ export function normalizeTimes(rows) {
     };
   }
   return map;
+}
+
+export function parseCalcCity(id) {
+  const text = String(id || '');
+  const parts = text.split(';');
+  if (parts.length < 4) return null;
+  const lat = Number(parts[0]);
+  const lng = Number(parts[1]);
+  const elv = Number(parts[2]);
+  const timezone = parts[3].replace('::', '/');
+  const method = parts[4] || 'MWL';
+  const name = timezone.split('/').pop() || 'Calc';
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  return {
+    id: text,
+    provider: 'Calc',
+    names: [name],
+    name,
+    country: '',
+    lat,
+    lng,
+    elv: Number.isFinite(elv) ? elv : null,
+    timezone,
+    key: `Calc:${text}`,
+    unsupported: false,
+    calculated: true,
+    calcMethod: method,
+  };
 }
 
 export class ApiService {
@@ -91,8 +125,21 @@ export class ApiService {
   }
 
   async city(provider, id) {
+    if (provider === 'Calc') return parseCalcCity(id);
     const result = await this.http.getJSON(`/${providerPath(provider)}/${encodeURIComponent(id)}`);
     return normalizeCity(result, provider);
+  }
+
+  async date(dateISO) {
+    return this.http.getJSON(`/date/${encodeURIComponent(dateISO)}`);
+  }
+
+  async gregYear(year) {
+    return this.http.getJSON(`/date/${encodeURIComponent(year)}`);
+  }
+
+  async hijriYear(year) {
+    return this.http.getJSON(`/hijri/${encodeURIComponent(year)}`);
   }
 
   async times(city) {

@@ -1,13 +1,14 @@
-import { addDays, isoDateInZone, parseHM, partsInZone, zonedTimeToUtc } from '../core/format.js';
+import { addDays, daysInMonth, isoDateInZone, parseHM, partsInZone, zonedTimeToUtc } from '../core/format.js';
 
 export const PRAYER_KEYS = ['fajr', 'sun', 'dhuhr', 'asr', 'maghrib', 'ishaa'];
 
 export class TimesService {
-  constructor({ storage, api, settings, i18n }) {
+  constructor({ storage, api, settings, i18n, hijri }) {
     this.storage = storage;
     this.api = api;
     this.settings = settings;
     this.i18n = i18n;
+    this.hijri = hijri;
     this.memory = new Map();
   }
 
@@ -34,9 +35,145 @@ export class TimesService {
     }
   }
 
+
+  _isCalc(city) {
+    return city?.provider === 'Calc' || city?.calculated;
+  }
+
+  _calcParams(city) {
+    const adhan = window.adhan;
+    if (!adhan) throw new Error('adhan is not loaded');
+    const method = String(city.calcMethod || 'MWL').toUpperCase();
+    let params;
+    switch (method) {
+      case 'ISNA':
+      case 'NORTHAMERICA':
+        params = adhan.CalculationMethod.NorthAmerica();
+        break;
+      case 'EGYPT':
+      case 'EGYPTIAN':
+        params = adhan.CalculationMethod.Egyptian();
+        break;
+      case 'MAKKAH':
+      case 'UMMALQURA':
+        params = adhan.CalculationMethod.UmmAlQura();
+        break;
+      case 'KARACHI':
+        params = adhan.CalculationMethod.Karachi();
+        break;
+      case 'TEHRAN':
+        params = adhan.CalculationMethod.Tehran();
+        break;
+      case 'TURKEY':
+        params = adhan.CalculationMethod.Turkey();
+        break;
+      case 'SINGAPORE':
+        params = adhan.CalculationMethod.Singapore();
+        break;
+      case 'UOIF':
+        params = adhan.CalculationMethod.Other();
+        params.fajrAngle = 12;
+        params.ishaAngle = 12;
+        break;
+      case 'RUSSIA':
+        params = adhan.CalculationMethod.Other();
+        params.fajrAngle = 16;
+        params.ishaAngle = 15;
+        break;
+      case 'MALAYSIA':
+        params = adhan.CalculationMethod.Other();
+        params.fajrAngle = 20;
+        params.ishaAngle = 18;
+        break;
+      case 'JAFARI':
+        params = adhan.CalculationMethod.Other();
+        params.fajrAngle = 16;
+        params.ishaAngle = 14;
+        params.maghribAngle = 4;
+        break;
+      default:
+        params = adhan.CalculationMethod.MuslimWorldLeague();
+    }
+    params.madhab = adhan.Madhab.Shafi;
+    params.highLatitudeRule = adhan.HighLatitudeRule.MiddleOfTheNight;
+    return params;
+  }
+
+  _calcClock(date, timeZone) {
+    if (!date || !Number.isFinite(date.getTime())) return null;
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).formatToParts(date);
+    const hour = parts.find((part) => part.type === 'hour')?.value;
+    const minute = parts.find((part) => part.type === 'minute')?.value;
+    if (hour == null || minute == null) return null;
+    return `${hour === '24' ? '00' : hour}:${minute}`;
+  }
+
+  _calcDay(city, dateISO) {
+    const adhan = window.adhan;
+    const [year, month, day] = dateISO.split('-').map(Number);
+    const date = new Date(year, month - 1, day, 12, 0, 0, 0);
+    const coords = new adhan.Coordinates(city.lat, city.lng);
+    const params = this._calcParams(city);
+    try {
+      const times = new adhan.PrayerTimes(coords, date, params);
+      const hanafiParams = this._calcParams(city);
+      hanafiParams.madhab = adhan.Madhab.Hanafi;
+      const hanafi = new adhan.PrayerTimes(coords, date, hanafiParams);
+      return {
+        date: dateISO,
+        fajr: this._calcClock(times.fajr, city.timezone),
+        sun: this._calcClock(times.sunrise, city.timezone),
+        dhuhr: this._calcClock(times.dhuhr, city.timezone),
+        asr: this._calcClock(times.asr, city.timezone),
+        maghrib: this._calcClock(times.maghrib, city.timezone),
+        ishaa: this._calcClock(times.isha, city.timezone),
+        asrHanafi: this._calcClock(hanafi.asr, city.timezone),
+        sabah: null,
+        isFajrEstimated: false,
+        isIshaaEstimated: false,
+        isSabahEstimated: false,
+      };
+    } catch (error) {
+      console.warn('[times] calc failed', city.name, dateISO, error);
+      return { date: dateISO, fajr: null, sun: null, dhuhr: null, asr: null, maghrib: null, ishaa: null, asrHanafi: null, sabah: null };
+    }
+  }
+
+  _calcRange(city, startISO, count) {
+    const days = {};
+    let date = startISO;
+    for (let i = 0; i < count; i += 1) {
+      days[date] = this._calcDay(city, date);
+      date = addDays(date, 1);
+    }
+    return days;
+  }
+
   async getTimes(city, { force = false, allowFetch = true } = {}) {
     const cached = await this._readCache(city);
     const today = isoDateInZone(new Date(), city.timezone);
+
+    if (this._isCalc(city)) {
+      if (!force && allowFetch && cached?.days?.[today]) return { ...cached, stale: false };
+      const start = `${today.slice(0, 7)}-01`;
+      const days = { ...(cached?.days || {}), ...this._calcRange(city, start, 75) };
+      this._prune(days);
+      const value = {
+        provider: city.provider,
+        id: city.id,
+        timezone: city.timezone,
+        calculated: true,
+        fetchedAt: Date.now(),
+        days,
+      };
+      await this._writeCache(city, value);
+      return { ...value, stale: false };
+    }
     const cachedDates = cached?.days ? Object.keys(cached.days).sort() : [];
     const lastDate = cachedDates[cachedDates.length - 1];
     const daysRemaining = lastDate ? Math.round((new Date(`${lastDate}T12:00:00Z`) - new Date(`${today}T12:00:00Z`)) / 86400000) : 0;
@@ -68,12 +205,33 @@ export class TimesService {
     }
   }
 
-  async getMonth(city, year, month) {
-    const cache = await this.getTimes(city, { allowFetch: false });
+  async getMonth(city, year, month, { ensure = true } = {}) {
     const prefix = `${year}-${String(month).padStart(2, '0')}-`;
-    const days = Object.values(cache.days || {})
+    if (this._isCalc(city)) {
+      const start = `${prefix}01`;
+      const days = Object.values(this._calcRange(city, start, daysInMonth(year, month)));
+      return { days, cache: await this._readCache(city) };
+    }
+
+    let cache = await this.getTimes(city);
+    let days = Object.values(cache.days || {})
       .filter((day) => day.date.startsWith(prefix))
       .sort((a, b) => a.date.localeCompare(b.date));
+
+    if (!days.length && ensure) {
+      const today = isoDateInZone(new Date(), city.timezone);
+      const targetKey = `${year}-${String(month).padStart(2, '0')}`;
+      if (targetKey >= today.slice(0, 7)) {
+        try {
+          cache = await this.getTimes(city, { force: true });
+          days = Object.values(cache.days || {})
+            .filter((day) => day.date.startsWith(prefix))
+            .sort((a, b) => a.date.localeCompare(b.date));
+        } catch {
+          // Keep the empty result; the sheet explains that no data is available.
+        }
+      }
+    }
     return { days, cache };
   }
 
@@ -210,6 +368,7 @@ export class TimesService {
       cache,
       today,
       day,
+      hijri: await this.hijri.getHijri(today),
       rows: this.displayRows(city, day, this.i18n.lang),
       next,
       kerahat: this.kerahat(city, cache, now),

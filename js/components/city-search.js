@@ -6,6 +6,7 @@ import { closeDialog, openDialog, showToast } from './ui.js';
 
 let dialog = null;
 let currentOnSelect = null;
+let locateNearby = null;
 
 function buildDialog() {
   dialog = document.createElement('dialog');
@@ -39,7 +40,7 @@ function buildDialog() {
     status.classList.toggle('notice--error', Boolean(isError));
   };
 
-  const renderResults = (cities) => {
+  const renderResults = (cities, { nearby = false } = {}) => {
     results.innerHTML = '';
     if (!cities.length) {
       setStatus(PT.i18n.t('web.noSearchResults'));
@@ -59,7 +60,7 @@ function buildDialog() {
         ${meta.logo ? `<img class="city-result__logo" src="${meta.logo}" alt="" width="44" height="44">` : `<span class="city-result__provider">${escapeHtml(meta.label)}</span>`}
       `;
       button.addEventListener('click', () => {
-        currentOnSelect?.(city);
+        currentOnSelect?.({ ...city, autoLocation: nearby });
         closeDialog(dialog);
       });
       results.appendChild(button);
@@ -85,26 +86,26 @@ function buildDialog() {
 
   input.addEventListener('input', search);
 
-  dialog.querySelector('[data-location]')?.addEventListener('click', async () => {
+  locateNearby = async () => {
     setStatus(PT.i18n.t('web.loading'));
+    results.innerHTML = '';
     try {
-      const city = await PT.cities.resolveLocation();
-      if (city) {
-        currentOnSelect?.(city);
-        closeDialog(dialog);
-      }
+      const cities = await PT.cities.nearbyFromDevice();
+      renderResults(cities, { nearby: true });
     } catch (error) {
       console.warn(error);
       const message = error?.code === 1 ? PT.i18n.t('web.locationDenied') : PT.i18n.t('web.apiUnavailable');
       setStatus(message, true);
       showToast(message);
     }
-  });
+  };
+
+  dialog.querySelector('[data-location]')?.addEventListener('click', () => locateNearby?.());
 
   return dialog;
 }
 
-export function openCitySearch(onSelect) {
+export function openCitySearch(onSelect, { nearMe = false } = {}) {
   if (!dialog) buildDialog();
   currentOnSelect = onSelect;
   const input = dialog.querySelector('[data-search-input]');
@@ -114,5 +115,8 @@ export function openCitySearch(onSelect) {
   if (results) results.innerHTML = '';
   if (status) status.textContent = '';
   openDialog(dialog);
-  window.setTimeout(() => input?.focus(), 60);
+  window.setTimeout(() => {
+    if (nearMe) locateNearby?.();
+    else input?.focus();
+  }, 60);
 }

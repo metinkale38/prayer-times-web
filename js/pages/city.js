@@ -15,6 +15,7 @@ const back = document.getElementById('city-back');
 const params = new URLSearchParams(location.search);
 let provider = params.get('provider');
 let id = params.get('id');
+const requestedName = params.get('name');
 let activeCity = null;
 let card = null;
 
@@ -30,7 +31,6 @@ function renderEmpty() {
     <div class="empty-state">
       <span data-icon="location" data-icon-size="48"></span>
       <h2>${escapeHtml(PT.i18n.t('web.selectCity'))}</h2>
-      <p>${escapeHtml(PT.i18n.t('web.standaloneHint'))}</p>
       <button class="btn" type="button" id="city-search-button">${iconSvg('search', { size: 18 })} ${escapeHtml(PT.i18n.t('web.searchCity'))}</button>
     </div>
   `;
@@ -59,6 +59,7 @@ async function load() {
       if (city) await PT.storage.set(cacheKey, city);
     }
     if (!city) throw new Error('City not found');
+    if (requestedName) city.name = requestedName;
     activeCity = city;
     title.textContent = city.name;
     setDocumentTitle(city.name);
@@ -87,10 +88,8 @@ async function load() {
 function enhanceStandalone(city, cardEl) {
   const meta = cardEl.querySelector('.city-card__meta');
   if (meta) {
-    meta.innerHTML = `
-      <span>${escapeHtml(city.provider)}</span>
-      <a href="./index.html#city=${encodeURIComponent(city.key)}">${escapeHtml(PT.i18n.t('web.openInApp'))}</a>
-    `;
+    meta.hidden = true;
+    meta.innerHTML = '';
   }
   const actions = document.createElement('div');
   actions.className = 'city-card__actions';

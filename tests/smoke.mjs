@@ -14,6 +14,8 @@ const context = await browser.newContext({
   viewport: { width: 412, height: 915 },
   deviceScaleFactor: 2,
   locale: 'de-DE',
+  geolocation: { latitude: 50.1109, longitude: 8.6821 },
+  permissions: ['geolocation'],
 });
 const page = await context.newPage();
 const errors = [];
@@ -40,10 +42,12 @@ await page.waitForTimeout(2500);
 assert.ok((await page.locator('.city-card__time, .prayer-row__time').first().textContent()).includes(':'), 'prayer times rendered');
 
 await go('compass.html');
-assert.ok(await page.locator('#compass-dial, .compass-dial').count());
+await page.click('#compass-gate-locate');
+await page.waitForTimeout(2500);
+assert.ok(await page.locator('.compass-dial').count());
 await page.click('#compass-toggle');
 await page.waitForTimeout(2500);
-assert.ok(await page.locator('#compass-map .leaflet-container, #compass-map.leaflet-container').count());
+assert.ok(await page.locator('#compass-map.leaflet-container').count());
 
 await go('names.html');
 await page.waitForSelector('.name-card', { timeout: 8000 });
@@ -58,6 +62,13 @@ assert.ok((await page.locator('#dhikr-count').textContent()).trim().length > 0);
 await go('calendar.html');
 await page.waitForSelector('.calendar-event', { timeout: 8000 });
 assert.ok((await page.locator('.calendar-event').count()) > 0);
+
+await go('missed.html');
+await page.waitForTimeout(300);
+assert.equal(await page.locator('.missed-row').count(), 7);
+await page.locator('.missed-row[data-row="fajr"] [data-plus]').click();
+await page.waitForTimeout(200);
+assert.ok(Number(await page.locator('.missed-row[data-row="fajr"] input').inputValue()) >= 1);
 
 await go('settings.html');
 await page.selectOption('[data-setting="theme"]', 'dark');

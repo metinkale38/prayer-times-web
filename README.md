@@ -15,7 +15,10 @@ files that GitHub Pages should publish.
 
 - Prayer times with a swipeable city pager: city list + any number of cities
 - Standalone city page `city.html?provider=Diyanet&id=11010` without app chrome
-- Month view, countdown, Kerahat/Makruh banner, Hijri date
+- Month view with live month navigation, countdown, Kerahat/Makruh banner, Hijri date
+- Calculated times (local adhan.js) with Shafi/Hanafi Asr option
+- Missed-prayer counters (Fajr, Dhuhr, Asr, Maghrib, Isha, Witr, fasting)
+- Automatic location search lets you choose the provider/source before adding
 - Qibla 2D compass and satellite map with a great-circle Qibla line
 - 99 Names of Allah with search and DE/EN/TR meanings
 - Multiple Dhikr counters with target, colours and haptics
@@ -83,7 +86,7 @@ receive the update.
 
 ```text
 index.html, compass.html, names.html, dhikr.html,
-calendar.html, settings.html, about.html, city.html
+calendar.html, missed.html, settings.html, about.html, city.html
 css/            tokens, base, layout, components, Leaflet CSS
 js/
   core/         storage, http, i18n, theme, format, icons, config
@@ -91,7 +94,7 @@ js/
   components/   app-shell, city-card, city-list, city-search,
                 month-view, ui
   pages/        one entry point per page
-  vendor/       htmx, Leaflet
+  vendor/       htmx, Leaflet, adhan
 data/           i18n de/en/tr, 99 names, Hijri table
 assets/         icons, source logos, app icon, fonts
 partials/       holiday article fragments (DE/TR) + images
@@ -109,6 +112,9 @@ docs/           architecture, deployment, Android WebView
 | `/search?lat=50.11&lng=8.68` | nearby cities |
 | `/{provider}/{id}/json` | prayer times |
 | `/{provider}/{id}` | city metadata |
+| `/date/{yyyy-mm-dd}` | Gregorian → Hijri + event (Diyanet) |
+| `/date/{yyyy}` | events for a Gregorian year |
+| `/hijri/{yyyy}` | events for a Hijri year |
 
 - Times are cached per city in `pt:v1:times:<provider>:<id>`.
 - The API returns a different number of days per source (currently ~42). The app
@@ -117,8 +123,11 @@ docs/           architecture, deployment, Android WebView
   practical concern in normal use.
 - Times are local wall-clock times of the city. Countdown and Hijri dates use the
   city's IANA timezone, not the device timezone.
-- `Calc` search results are filtered because the public API does not expose
-  their `/json` data. Official providers are supported.
+- `Calc` results are supported locally with `adhan.js`; no `/json` request is
+  needed. Calculated times can differ slightly from the Android `calctimes`
+  implementation.
+- Hijri dates and holiday events come from the Open Prayer Times API where
+  available, with the bundled table/`Intl` as offline fallback.
 
 The 99 names and Hijri table are generated once from the Android repo:
 
@@ -178,7 +187,7 @@ prefixed `web.`. To add a language, copy `en.json`, translate it, add it to
 
 - Default: system (`prefers-color-scheme`)
 - Settings: System / Light / Dark
-- Toolbar moon/sun quick switch
+- No per-page/app-bar toggle; the setting is the single control
 - Stored in `pt.theme` and `pt:v1:settings.theme`
 - No flash: inline head script sets the theme before first paint
 
@@ -216,11 +225,17 @@ the 10-slot times screen, drawer proportions and card radii.
   taken as-is; there is no synthetic 365-day cache.
 - The Hijri table built from the Android app covers 2012–2035; later dates fall
   back to Umm al-Qura via `Intl`.
-- The satellite layer uses EOX Sentinel-2 cloudless and needs network access for
-  new tiles. The Qibla line is a great-circle curve, not a straight line.
+- The satellite layer uses high-resolution Esri World Imagery and needs network
+  access for new tiles. The Qibla line is a great-circle curve, not a straight
+  line. Google Maps would require an API key; Esri is used so the house-level
+  zoom works without one.
 - English holiday articles fall back to a short text because the Android app has
-  no English article assets.
-- `Calc` (local astronomical calculation) is intentionally not included.
+  no English article assets. The Hijri events themselves still come from the API.
+- `Calc` uses adhan.js locally; calculated times are not official provider
+  times and can differ by a few minutes.
+- Compass location and sensor access require a secure context (HTTPS or
+  localhost). On a plain-HTTP LAN address the compass shows a link to the live
+  HTTPS page.
 - Plain HTTP on a LAN is not a secure context: PWA/geolocation/sensor features
   may be unavailable there.
 

@@ -21,7 +21,9 @@ function build() {
   dialog.className = 'month-sheet';
   dialog.innerHTML = `
     <div class="month-sheet__head">
+      <button class="icon-btn" type="button" data-prev aria-label="${escapeHtml(PT.i18n.t('web.previousMonth'))}">${iconSvg('chevron-left')}</button>
       <div class="month-sheet__title" data-title></div>
+      <button class="icon-btn" type="button" data-next aria-label="${escapeHtml(PT.i18n.t('web.nextMonth'))}">${iconSvg('chevron-right')}</button>
       <button class="icon-btn" type="button" data-sync aria-label="${escapeHtml(PT.i18n.t('web.sync'))}">${iconSvg('refresh')}</button>
       <button class="icon-btn" type="button" data-close aria-label="${escapeHtml(PT.i18n.t('web.close'))}">${iconSvg('close')}</button>
     </div>
@@ -30,6 +32,8 @@ function build() {
   document.body.appendChild(dialog);
   dialog.querySelector('[data-close]').addEventListener('click', () => closeDialog(dialog));
   dialog.querySelector('[data-sync]').addEventListener('click', sync);
+  dialog.querySelector('[data-prev]').addEventListener('click', () => shiftMonth(-1));
+  dialog.querySelector('[data-next]').addEventListener('click', () => shiftMonth(1));
   return dialog;
 }
 
@@ -46,7 +50,7 @@ async function render() {
     if (!days.length) {
       body.innerHTML = `
         <div class="month-sheet__empty">
-          <p>${escapeHtml(PT.i18n.t('web.refreshHint'))}</p>
+          <p>${escapeHtml(PT.i18n.t('web.monthNoData'))}</p>
           <button class="btn" type="button" data-empty-sync>${escapeHtml(PT.i18n.t('web.sync'))}</button>
         </div>
       `;
@@ -77,6 +81,16 @@ async function render() {
   }
 }
 
+function shiftMonth(delta) {
+  if (!state.city) return;
+  let month = state.month + delta;
+  let year = state.year;
+  if (month < 1) { month = 12; year -= 1; }
+  if (month > 12) { month = 1; year += 1; }
+  state.month = month;
+  state.year = year;
+  render();
+}
 
 async function sync() {
   if (!state.city) return;

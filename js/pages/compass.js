@@ -1,7 +1,5 @@
 import { PT } from '../boot.js';
-import { rafThrottle } from '../core/format.js';
 import { iconSvg } from '../core/icons.js';
-import { openCitySearch } from '../components/city-search.js';
 import { showToast } from '../components/ui.js';
 import {
   CompassSensor,
@@ -15,62 +13,86 @@ import {
 await PT.ready;
 await PT.shellReady;
 
+const gate = document.getElementById('compass-gate');
+const gateButton = document.getElementById('compass-gate-locate');
+const gateError = document.getElementById('compass-gate-error');
+const liveLink = document.getElementById('compass-live-link');
 const locationButton = document.getElementById('compass-location');
 const rose = document.getElementById('compass-rose');
 const qiblaArm = document.getElementById('compass-qibla-arm');
 const headingEl = document.getElementById('compass-heading');
 const angleEl = document.getElementById('compass-angle');
 const distanceEl = document.getElementById('compass-distance');
-const manual = document.getElementById('compass-manual');
-const range = document.getElementById('compass-range');
+const sensorNote = document.getElementById('compass-sensor-note');
 const enableButton = document.getElementById('compass-enable');
 const body2d = document.getElementById('compass-2d');
 const mapWrap = document.getElementById('compass-map-wrap');
 const mapEl = document.getElementById('compass-map');
 const toggleButton = document.getElementById('compass-toggle');
 const locateButton = document.getElementById('compass-locate');
-const pickButton = document.getElementById('compass-pick');
 
-let location = PT.settings.get('compass_location', null);
-if (!location) {
-  const first = PT.cities.all()[0];
-  location = first
-    ? { lat: first.lat, lng: first.lng, name: first.name, timezone: first.timezone }
-    : { lat: 50.1109, lng: 8.6821, name: 'Frankfurt', timezone: 'Europe/Berlin' };
-}
-
+const isLiveHost = location.hostname === 'metinkale38.github.io';
+const secure = window.isSecureContext;
+let location_ = PT.settings.get('compass_location', null);
 let heading = null;
-let manualHeading = 0;
 let mode = 'compass';
 let map = null;
 let userMarker = null;
 let kaabaMarker = null;
 let line = null;
-let pickMode = false;
 let sensorActive = false;
 let sensorTimer = null;
+let busy = false;
 
 const sensor = new CompassSensor();
 
 function bearing() {
-  return qiblaBearing(location.lat, location.lng);
+  return qiblaBearing(location_.lat, location_.lng);
 }
 
 function distance() {
-  return distanceToKaabaKm(location.lat, location.lng);
+  return distanceToKaabaKm(location_.lat, location_.lng);
+}
+
+function setGateError(message) {
+  if (gateError) gateError.textContent = message || '';
+}
+
+function showGate(message = '') {
+  gate.hidden = false;
+  body2d.hidden = true;
+  mapWrap.hidden = true;
+  locationButton.hidden = true;
+  toggleButton.disabled = true;
+  setGateError(message);
+  liveLink.hidden = isLiveHost || secure;
+}
+
+function hideGate() {
+  gate.hidden = true;
+  setGateError('');
+}
+
+function setBusy(value) {
+  busy = value;
+  if (gateButton) gateButton.disabled = value;
+  if (locateButton) locateButton.disabled = value;
 }
 
 function renderLocation() {
-  locationButton.textContent = location.name || PT.i18n.t('web.currentLocation');
-  locationButton.title = location.name || '';
+  if (!locationButton) return;
+  locationButton.hidden = false;
+  locationButton.textContent = location_.name || PT.i18n.t('web.currentLocation');
+  locationButton.title = PT.i18n.t('web.useLocation');
 }
 
 function renderDial() {
+  if (!location_) return;
   const qibla = bearing();
-  const current = heading == null ? manualHeading : heading;
+  const current = heading == null ? 0 : heading;
   if (rose) rose.style.transform = `rotate(${-normalizeAngle(current)}deg)`;
   if (qiblaArm) qiblaArm.style.transform = `rotate(${qibla}deg)`;
-  if (headingEl) headingEl.textContent = `${Math.round(normalizeAngle(current))}°`;
+  if (headingEl) headingEl.textContent = heading == null ? '--°' : `${Math.round(normalizeAngle(current))}°`;
   if (angleEl) angleEl.textContent = `${Math.round(qibla)}°`;
   if (distanceEl) {
     const km = Math.round(distance());
@@ -78,69 +100,88 @@ function renderDial() {
   }
 }
 
-function showManual(show) {
-  if (manual) manual.hidden = !show;
+function showSensorMessage(message) {
+  if (!sensorNote) return;
+  sensorNote.textContent = message;
+  sensorNote.hidden = !message;
 }
 
 function startSensor() {
+  showSensorMessage('');
+  if (enableButton) enableButton.hidden = true;
   if (!CompassSensor.supported()) {
-    showManual(true);
-    if (enableButton) enableButton.hidden = true;
+    showSensorMessage(PT.i18n.t('web.compassSensorMissing'));
     return;
   }
   const started = sensor.start((value) => {
     heading = value;
+    showSensorMessage('');
     renderDial();
   });
-  if (!started) {
-    showManual(true);
+  if (!started && !sensorActive) {
+    showSensorMessage(PT.i18n.t('web.compassSensorMissing'));
     return;
   }
   sensorActive = true;
-  showManual(false);
   clearTimeout(sensorTimer);
   sensorTimer = window.setTimeout(() => {
     if (heading == null) {
-      showManual(true);
-      if (enableButton) enableButton.hidden = false;
+      const needsPermission = typeof DeviceOrientationEvent?.requestPermission === 'function';
+      showSensorMessage(PT.i18n.t(needsPermission ? 'web.sensorPermissionHint' : 'web.compassSensorMissing'));
+      if (needsPermission && enableButton) enableButton.hidden = false;
     }
-  }, 1600);
+  }, 1800);
 }
 
 async function enableSensor() {
   try {
     const granted = await sensor.requestPermission();
     if (!granted) {
-      showToast(PT.i18n.t('web.locationDenied'));
-      showManual(true);
+      showSensorMessage(PT.i18n.t('web.locationDenied'));
       return;
     }
     startSensor();
+    if (enableButton) enableButton.hidden = true;
   } catch (error) {
-    console.warn('[compass] permission', error);
-    showManual(true);
+    console.warn('[compass] sensor permission', error);
+    showSensorMessage(PT.i18n.t('web.locationDenied'));
   }
 }
 
 function setLocation(next, { persist = true } = {}) {
-  location = {
+  location_ = {
     lat: Number(next.lat),
     lng: Number(next.lng),
     name: next.name || PT.i18n.t('web.currentLocation'),
     timezone: next.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
   };
-  if (persist) PT.settings.set('compass_location', location);
+  if (persist) PT.settings.set('compass_location', location_);
+  hideGate();
   renderLocation();
+  body2d.hidden = mode === 'map';
+  mapWrap.hidden = mode !== 'map';
+  toggleButton.disabled = false;
   renderDial();
-  updateMap();
+  if (mode === 'map') {
+    initMap();
+    updateMap();
+  }
+  startSensor();
 }
 
-function locate() {
-  if (!navigator.geolocation) {
-    showToast(PT.i18n.t('web.locationDenied'));
+function activateLocation() {
+  if (busy) return;
+  if (!secure) {
+    showGate(PT.i18n.t('web.secureContextRequired'));
+    liveLink.hidden = false;
     return;
   }
-  showToast(PT.i18n.t('web.loading'), { duration: 1400 });
+  if (!navigator.geolocation) {
+    showGate(PT.i18n.t('web.locationDenied'));
+    return;
+  }
+  setBusy(true);
+  setGateError('');
   navigator.geolocation.getCurrentPosition(async (position) => {
     const { latitude, longitude } = position.coords;
     let name = PT.i18n.t('web.currentLocation');
@@ -151,13 +192,31 @@ function locate() {
         name = cities[0].name;
         timezone = cities[0].timezone;
       }
-    } catch { /* keep generic name */ }
+    } catch {
+      // Keep the generic name; the coordinates are what matters.
+    }
+    setBusy(false);
     setLocation({ lat: latitude, lng: longitude, name, timezone });
     showToast(PT.i18n.t('web.synced'));
+    await enableSensorIfNeeded();
   }, (error) => {
     console.warn('[compass] geolocation', error);
-    showToast(PT.i18n.t('web.locationDenied'));
-  }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
+    setBusy(false);
+    setGateError(error?.code === 1 ? PT.i18n.t('web.locationDenied') : PT.i18n.t('web.locationDenied'));
+  }, {
+    enableHighAccuracy: true,
+    timeout: 12000,
+    maximumAge: 30000,
+  });
+}
+
+async function enableSensorIfNeeded() {
+  if (sensorActive) return;
+  if (typeof DeviceOrientationEvent?.requestPermission === 'function') {
+    await enableSensor();
+  } else {
+    startSensor();
+  }
 }
 
 function markerIcon(html, size = 24) {
@@ -170,20 +229,27 @@ function markerIcon(html, size = 24) {
 }
 
 function initMap() {
-  if (map || !window.L) return;
+  if (map || !window.L || !location_) return;
   map = window.L.map(mapEl, { zoomControl: true, attributionControl: true });
-  const satellite = window.L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2020_3857/default/g/{z}/{y}/{x}.jpg', {
-    maxZoom: 18,
-    attribution: 'Sentinel-2 cloudless – <a href="https://s2maps.eu">s2maps.eu</a> by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2020)',
-  });
+  const satellite = window.L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {
+      maxZoom: 19,
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+    },
+  );
   const streets = window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   });
   satellite.addTo(map);
-  window.L.control.layers({ [PT.i18n.t('web.satellite')]: satellite, [PT.i18n.t('web.street')]: streets }, null, { position: 'topright' }).addTo(map);
+  window.L.control.layers(
+    { [PT.i18n.t('web.satellite')]: satellite, [PT.i18n.t('web.street')]: streets },
+    null,
+    { position: 'topright' },
+  ).addTo(map);
 
-  userMarker = window.L.marker([location.lat, location.lng], {
+  userMarker = window.L.marker([location_.lat, location_.lng], {
     icon: markerIcon(`<div class="map-marker">${iconSvg('location', { size: 14 })}</div>`, 24),
     keyboard: false,
   }).addTo(map);
@@ -191,54 +257,41 @@ function initMap() {
     icon: markerIcon('<div class="map-marker map-marker--kaaba"><img src="./assets/img/kaaba.png" alt="" width="44" height="36"></div>', 44),
     keyboard: false,
   }).addTo(map);
-  line = window.L.polyline(greatCirclePoints(location.lat, location.lng), {
+  line = window.L.polyline(greatCirclePoints(location_.lat, location_.lng), {
     color: '#4fc3f7',
     weight: 3,
     opacity: 0.95,
   }).addTo(map);
 
-  map.on('click', (event) => {
-    if (!pickMode) return;
-    pickMode = false;
-    if (pickButton) pickButton.classList.remove('btn--danger');
-    setLocation({
-      lat: event.latlng.lat,
-      lng: event.latlng.lng,
-      name: PT.i18n.t('web.currentLocation'),
-      timezone: location.timezone,
-    });
-  });
-
+  map.setView([location_.lat, location_.lng], 18, { animate: false });
   updateMap();
 }
 
 function updateMap() {
-  if (!map) return;
-  userMarker?.setLatLng([location.lat, location.lng]);
-  line?.setLatLngs(greatCirclePoints(location.lat, location.lng));
+  if (!map || !location_) return;
+  userMarker?.setLatLng([location_.lat, location_.lng]);
+  line?.setLatLngs(greatCirclePoints(location_.lat, location_.lng));
   const qibla = bearing();
   const dist = distance();
   if (angleEl) angleEl.textContent = `${Math.round(qibla)}°`;
   if (distanceEl) distanceEl.textContent = `${Math.round(dist)} ${PT.i18n.t('web.km')}`;
-  if (mode === 'map') {
-    const bounds = window.L.latLngBounds(
-      [location.lat, location.lng],
-      [KAABA.lat, KAABA.lng],
-    );
-    map.fitBounds(bounds.pad(0.18), { maxZoom: 6, animate: false });
-  }
+  map.setView([location_.lat, location_.lng], 18, { animate: false });
 }
 
 function setMode(next) {
+  if (!location_) {
+    showGate();
+    return;
+  }
   mode = next;
+  body2d.hidden = mode === 'map';
+  mapWrap.hidden = mode !== 'map';
   if (mode === 'map') {
-    body2d.hidden = true;
-    mapWrap.hidden = false;
     initMap();
-    requestAnimationFrame(() => map?.invalidateSize());
-  } else {
-    mapWrap.hidden = true;
-    body2d.hidden = false;
+    requestAnimationFrame(() => {
+      map?.invalidateSize();
+      updateMap();
+    });
   }
   if (toggleButton) {
     toggleButton.innerHTML = iconSvg(mode === 'map' ? 'compass' : 'map');
@@ -246,40 +299,18 @@ function setMode(next) {
   }
 }
 
-const renderDialThrottled = rafThrottle(renderDial);
-
-range?.addEventListener('input', () => {
-  manualHeading = Number(range.value || 0);
-  heading = null;
-  renderDial();
-  showManual(true);
-});
-
-enableButton?.addEventListener('click', enableSensor);
+gateButton?.addEventListener('click', activateLocation);
+locateButton?.addEventListener('click', activateLocation);
+locationButton?.addEventListener('click', activateLocation);
 toggleButton?.addEventListener('click', () => setMode(mode === 'map' ? 'compass' : 'map'));
-locateButton?.addEventListener('click', async () => {
-  await enableSensorIfNeeded();
-  locate();
-});
-locationButton?.addEventListener('click', () => openCitySearch((city) => {
-  setLocation(city);
-  showToast(PT.i18n.t('web.added'));
-}));
-pickButton?.addEventListener('click', () => {
-  pickMode = !pickMode;
-  pickButton.classList.toggle('btn--danger', pickMode);
-});
+enableButton?.addEventListener('click', enableSensor);
 
-async function enableSensorIfNeeded() {
-  if (sensorActive) return;
-  if (typeof DeviceOrientationEvent?.requestPermission === 'function') {
-    await enableSensor();
-  } else {
-    startSensor();
-  }
+if (location_) {
+  setLocation(location_, { persist: false });
+} else {
+  showGate();
 }
 
-renderLocation();
-renderDial();
-startSensor();
-window.addEventListener('pt:themechange', renderDialThrottled);
+window.addEventListener('pt:themechange', () => {
+  if (location_) renderDial();
+});

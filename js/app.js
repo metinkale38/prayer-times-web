@@ -1,6 +1,5 @@
 import { PT } from './boot.js';
 import './components/app-shell.js';
-import { iconSvg } from './core/icons.js';
 import { closeDialog } from './components/ui.js';
 
 const PAGE_TITLE_KEYS = {
@@ -9,6 +8,7 @@ const PAGE_TITLE_KEYS = {
   names: 'names',
   dhikr: 'dhikr',
   calendar: 'calendar',
+  missed: 'missedPrayers',
   settings: 'settings',
   about: 'about',
 };
@@ -19,20 +19,6 @@ if (pageTitleKey) {
   const title = PT.i18n.t(pageTitleKey);
   document.title = title === appName ? appName : `${title} · ${appName}`;
 }
-
-// One delegated theme switch for the app bar and standalone pages.
-document.addEventListener('click', async (event) => {
-  const button = event.target.closest('[data-theme-toggle]');
-  if (!button) return;
-  await PT.theme.toggle();
-});
-
-window.addEventListener('pt:themechange', () => {
-  document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
-    button.innerHTML = iconSvg(PT.theme.effective === 'dark' ? 'sun' : 'moon');
-    button.setAttribute('aria-label', PT.i18n.t('web.nightMode'));
-  });
-});
 
 document.addEventListener('click', (event) => {
   const closer = event.target.closest('[data-close]');

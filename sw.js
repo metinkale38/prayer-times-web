@@ -1,5 +1,5 @@
 /* Prayer Times WebApp service worker. No build step: bump CACHE_VERSION manually. */
-const CACHE_VERSION = 'pt-web-v1';
+const CACHE_VERSION = 'pt-web-v2';
 const TILE_CACHE = 'pt-tiles-v1';
 const PRECACHE = [
   './',
@@ -8,6 +8,7 @@ const PRECACHE = [
   './names.html',
   './dhikr.html',
   './calendar.html',
+  './missed.html',
   './settings.html',
   './about.html',
   './city.html',
@@ -43,12 +44,14 @@ const PRECACHE = [
   './js/components/ui.js',
   './js/pages/about.js',
   './js/pages/calendar.js',
+  './js/pages/missed.js',
   './js/pages/city.js',
   './js/pages/compass.js',
   './js/pages/dhikr.js',
   './js/pages/names.js',
   './js/pages/settings.js',
   './js/pages/times.js',
+  './js/vendor/adhan.js',
   './js/vendor/htmx.min.js',
   './js/vendor/leaflet.js',
   './js/vendor/images/marker-icon.png',
@@ -65,6 +68,7 @@ const PRECACHE = [
   './assets/icons/menu/compass.png',
   './assets/icons/menu/names.png',
   './assets/icons/menu/calendar.png',
+  './assets/icons/menu/missed.png',
   './assets/icons/menu/dhikr.png',
   './assets/icons/menu/settings.png',
   './assets/icons/menu/about.png',

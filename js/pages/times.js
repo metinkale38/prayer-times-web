@@ -1,5 +1,5 @@
 import { PT } from '../boot.js';
-import { escapeHtml, fitTexts, formatTime, isoDateInZone, rafThrottle } from '../core/format.js';
+import { escapeHtml, fitTexts, isoDateInZone, rafThrottle } from '../core/format.js';
 import { iconSvg } from '../core/icons.js';
 import { createCityCard, updateCityCard, updateCityCardLive } from '../components/city-card.js';
 import { renderCityList } from '../components/city-list.js';
@@ -181,6 +181,7 @@ async function loadCard(card, city) {
     if (countdown) countdown.textContent = '--:--:--';
     const meta = card.querySelector('.city-card__meta');
     if (meta) {
+      meta.hidden = false;
       meta.innerHTML = `<span>${escapeHtml(sourceMeta(city.provider).label)}</span><button class="btn btn--text btn--small" type="button" data-retry>${escapeHtml(PT.i18n.t('web.retry'))}</button>`;
       meta.querySelector('[data-retry]')?.addEventListener('click', () => loadCard(card, city));
     }
@@ -188,15 +189,8 @@ async function loadCard(card, city) {
   }
 }
 
-async function useLocation() {
-  try {
-    showToast(PT.i18n.t('web.loading'), { duration: 1400 });
-    const city = await PT.cities.resolveLocation();
-    await onCitySelected({ ...city, autoLocation: true });
-  } catch (error) {
-    console.warn(error);
-    showToast(error?.code === 1 ? PT.i18n.t('web.locationDenied') : PT.i18n.t('web.apiUnavailable'));
-  }
+function useLocation() {
+  openCitySearch(onCitySelected, { nearMe: true });
 }
 
 async function onCitySelected(city) {
@@ -235,7 +229,6 @@ function buildMoreDialog() {
       <div class="dialog-list">
         <button class="btn" type="button" data-share>${iconSvg('share')} ${escapeHtml(PT.i18n.t('share'))}</button>
         <button class="btn" type="button" data-sync>${iconSvg('refresh')} ${escapeHtml(PT.i18n.t('web.sync'))}</button>
-        <a class="btn" href="#" target="_blank" rel="noopener" data-standalone>${iconSvg('external')} ${escapeHtml(PT.i18n.t('web.openStandalone'))}</a>
         <button class="btn" type="button" data-month>${iconSvg('calendar')} ${escapeHtml(PT.i18n.t('web.monthly'))}</button>
         <button class="btn" type="button" data-settings>${iconSvg('settings')} ${escapeHtml(PT.i18n.t('web.citySettings'))}</button>
         <button class="btn" type="button" data-remove>${iconSvg('delete')} ${escapeHtml(PT.i18n.t('web.removeCity'))}</button>
@@ -255,15 +248,14 @@ function openMore() {
   if (!city) return;
   const dialog = buildMoreDialog();
   dialog.querySelector('[data-more-title]').textContent = city.name;
-  const standalone = dialog.querySelector('[data-standalone]');
-  standalone.href = `./city.html?provider=${encodeURIComponent(city.provider)}&id=${encodeURIComponent(city.id)}&lang=${encodeURIComponent(PT.i18n.lang)}`;
-
   dialog.querySelector('[data-share]').onclick = async () => {
     closeDialog(dialog);
-    const rows = card?._lastRows || [];
-    const lines = rows.map((row) => `${PT.i18n.t(row.labelKey)}: ${formatTime(row.time, { use12h: PT.settings.get('use12h'), numbers: PT.settings.get('numbers'), i18n: PT.i18n })}`);
-    const title = PT.i18n.format(PT.i18n.t('web.shareTimes'), [city.name]);
-    await shareOrCopy({ title, text: `${title}\n${lines.join('\n')}`, url: location.href });
+    const url = new URL(
+      `./city.html?provider=${encodeURIComponent(city.provider)}&id=${encodeURIComponent(city.id)}&lang=${encodeURIComponent(PT.i18n.lang)}&name=${encodeURIComponent(city.name)}`,
+      location.href,
+    ).href;
+    const title = PT.i18n.format(PT.i18n.t('web.prayerTimesFor'), [city.name]);
+    await shareOrCopy({ title, text: title, url });
   };
 
   dialog.querySelector('[data-sync]').onclick = async () => {
@@ -314,6 +306,17 @@ function openCitySettings(city, card) {
   dialog.className = 'modal';
   const offsets = city.minuteAdj || [0, 0, 0, 0, 0, 0];
   const labels = ['fajr', 'sun', 'zuhr', 'asr', 'maghrib', 'ishaa'];
+  const isCalc = city.calculated || city.provider === 'Calc';
+  const asrField = isCalc
+    ? `<div class="field">
+          <label for="city-asr">${escapeHtml(PT.i18n.t('web.asrType'))}</label>
+          <select class="select" id="city-asr">
+            <option value="shafi">${escapeHtml(PT.i18n.t('web.shafi'))}</option>
+            <option value="hanafi">${escapeHtml(PT.i18n.t('web.hanafi'))}</option>
+            <option value="both">${escapeHtml(PT.i18n.t('web.both'))}</option>
+          </select>
+        </div>`
+    : `<p class="notice">${escapeHtml(PT.i18n.t('web.asrOnlyCalc'))}</p>`;
   dialog.innerHTML = `
     <div class="modal__header">
       <div class="modal__title">${escapeHtml(city.name)}</div>
@@ -321,14 +324,7 @@ function openCitySettings(city, card) {
     </div>
     <div class="modal__body">
       <div class="stack">
-        <div class="field">
-          <label for="city-asr">${escapeHtml(PT.i18n.t('web.asrType'))}</label>
-          <select class="select" id="city-asr">
-            <option value="shafi">${escapeHtml(PT.i18n.t('web.shafi'))}</option>
-            <option value="hanafi">${escapeHtml(PT.i18n.t('web.hanafi'))}</option>
-            <option value="both">${escapeHtml(PT.i18n.t('web.both'))}</option>
-          </select>
-        </div>
+        ${asrField}
         <div class="field">
           <div class="field__label">${escapeHtml(PT.i18n.t('web.minuteAdjust'))}</div>
           <div class="settings-offsets">
@@ -352,12 +348,12 @@ function openCitySettings(city, card) {
     </div>
   `;
   document.body.appendChild(dialog);
-  dialog.querySelector('#city-asr').value = city.asrType || 'shafi';
+  if (isCalc) dialog.querySelector('#city-asr').value = city.asrType || 'shafi';
   const close = () => { closeDialog(dialog); dialog.remove(); };
   dialog.querySelectorAll('[data-close]').forEach((btn) => btn.addEventListener('click', close));
   dialog.addEventListener('cancel', (event) => { event.preventDefault(); close(); });
   dialog.querySelector('[data-save]').addEventListener('click', async () => {
-    const asrType = dialog.querySelector('#city-asr').value;
+    const asrType = isCalc ? dialog.querySelector('#city-asr').value : city.asrType;
     const minuteAdj = [...dialog.querySelectorAll('[data-offset]')].map((input) => Number(input.value || 0));
     const timezoneOffset = Number(dialog.querySelector('#city-tz').value || 0);
     await PT.cities.update(city.key, { asrType, minuteAdj, timezoneOffset });

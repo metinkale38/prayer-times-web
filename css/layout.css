@@ -12,7 +12,7 @@ app-shell {
 .app-bar {
   position: sticky;
   top: 0;
-  z-index: 30;
+  z-index: 1000;
   display: flex;
   align-items: center;
   gap: 2px;
@@ -55,7 +55,7 @@ app-shell {
 .drawer-scrim {
   position: fixed;
   inset: 0;
-  z-index: 35;
+  z-index: 1900;
   background: var(--scrim);
   opacity: 0;
   visibility: hidden;
@@ -72,7 +72,7 @@ app-shell {
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 40;
+  z-index: 2000;
   width: var(--drawer-width);
   display: flex;
   flex-direction: column;
@@ -205,7 +205,7 @@ html[data-theme='dark'] .drawer__icon {
 .standalone-bar {
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 1000;
   display: flex;
   align-items: center;
   gap: 8px;
