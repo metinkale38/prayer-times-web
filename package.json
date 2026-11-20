@@ -1,0 +1,17 @@
+{
+  "name": "prayer-times-webapp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Static multi-page Prayer Times WebApp with htmx, PWA and Android WebView persistence bridge.",
+  "scripts": {
+    "dev": "node tools/dev-server.mjs",
+    "build": "node tools/build-static.mjs",
+    "data:extract": "python3 tools/extract-android-data.py",
+    "test:smoke": "node tests/smoke.mjs",
+    "preview": "ROOT_DIR=dist node tools/dev-server.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.55.0"
+  }
+}

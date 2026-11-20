@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0288d1">
+  <meta name="description" content="Gebetszeiten einer Stadt – eigenständige Seite ohne App-Menü.">
+  <title>Gebetszeiten</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/img/icon-64.png" sizes="64x64">
+  <link rel="apple-touch-icon" href="./assets/img/icon-180.png">
+  <link rel="stylesheet" href="./css/tokens.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <script>
+    try {
+      var mode = localStorage.getItem('pt.theme') || 'system';
+      var dark = mode === 'dark' || (mode === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    } catch (e) {}
+  </script>
+</head>
+<body data-page="city" class="layout-standalone">
+  <a class="skip-link" href="#city-root" data-i18n="web.skipToContent">Zum Inhalt springen</a>
+
+  <header class="standalone-bar">
+    <a class="standalone-bar__back" href="./index.html" id="city-back">
+      <span data-icon="arrow-left" data-icon-size="20"></span>
+      <span data-i18n="web.backToApp">Zur App</span>
+    </a>
+    <div class="standalone-bar__title" id="city-title">Gebetszeiten</div>
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Nachtmodus">
+      <span data-icon="moon"></span>
+    </button>
+  </header>
+
+  <main class="standalone-main" id="city-root">
+    <div class="loading-block">
+      <div class="spinner"></div>
+      <span data-i18n="web.loading">Lädt …</span>
+    </div>
+  </main>
+
+  <footer class="standalone-footer">
+    <span data-i18n="web.standaloneHint">Diese Seite zeigt nur die Gebetszeiten einer Stadt – ohne App-Menü.</span>
+  </footer>
+
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/pages/city.js"></script>
+</body>
+</html>

@@ -1,0 +1,1391 @@
+{
+  "version": 1,
+  "names": [
+    {
+      "no": 1,
+      "ar": "هُوَ اللّٰهُ الَّذِي لَٓا اِلٰهَ اِلَّا هُوَ",
+      "name": {
+        "en": "Allah",
+        "de": "Allah",
+        "tr": "Allah"
+      },
+      "meaning": {
+        "en": "He is Allah besides Whom there is no god",
+        "de": "Er ist Allah, außer Dem es keinen Herrn gibt.",
+        "tr": "He is Allah besides Whom there is no god"
+      }
+    },
+    {
+      "no": 2,
+      "ar": "الرَّحْمَنُ",
+      "name": {
+        "en": "Ar-Rahman",
+        "de": "Ar-Rahman",
+        "tr": "Ar-Rahman"
+      },
+      "meaning": {
+        "en": "The All-Merciful",
+        "de": "der Gnädige",
+        "tr": "The All-Merciful"
+      }
+    },
+    {
+      "no": 3,
+      "ar": "الرَّحِيمُ",
+      "name": {
+        "en": "Ar-Rahim",
+        "de": "Ar-Rahiem",
+        "tr": "Ar-Rahim"
+      },
+      "meaning": {
+        "en": "The All-Beneficient",
+        "de": "der Barmherzige",
+        "tr": "The All-Beneficient"
+      }
+    },
+    {
+      "no": 4,
+      "ar": "الْمَلِكُ",
+      "name": {
+        "en": "Al-Malik",
+        "de": "Al-Malik",
+        "tr": "Al-Malik"
+      },
+      "meaning": {
+        "en": "The Absolute Ruler",
+        "de": "der Herrscher und König",
+        "tr": "The Absolute Ruler"
+      }
+    },
+    {
+      "no": 5,
+      "ar": "الْقُدُّوسُ",
+      "name": {
+        "en": "Al-Quddus",
+        "de": "Al-Qudduus",
+        "tr": "Al-Quddus"
+      },
+      "meaning": {
+        "en": "The Pure One",
+        "de": "der Heilige, der Reine, frei allen Makels",
+        "tr": "The Pure One"
+      }
+    },
+    {
+      "no": 6,
+      "ar": "السَّلاَمُ",
+      "name": {
+        "en": "As-Salam",
+        "de": "As-Salaam",
+        "tr": "As-Salam"
+      },
+      "meaning": {
+        "en": "The Source of Peace",
+        "de": "der Retter, der Verleiher des Friedens",
+        "tr": "The Source of Peace"
+      }
+    },
+    {
+      "no": 7,
+      "ar": "الْمُؤْمِنُ",
+      "name": {
+        "en": "Al-Mu’min",
+        "de": "Al-Mu'min",
+        "tr": "Al-Mu’min"
+      },
+      "meaning": {
+        "en": "The Inspirer of Faith",
+        "de": "der Wahrer der Sicherheit",
+        "tr": "The Inspirer of Faith"
+      }
+    },
+    {
+      "no": 8,
+      "ar": "الْمُهَيْمِنُ",
+      "name": {
+        "en": "Al-Muhaymin",
+        "de": "Al-Muhaimin",
+        "tr": "Al-Muhaymin"
+      },
+      "meaning": {
+        "en": "The Guardian",
+        "de": "der Beschützer und Bewacher",
+        "tr": "The Guardian"
+      }
+    },
+    {
+      "no": 9,
+      "ar": "الْعَزِيزُ",
+      "name": {
+        "en": "Al-’Aziz",
+        "de": "Al-A'sies",
+        "tr": "Al-’Aziz"
+      },
+      "meaning": {
+        "en": "The Victorious",
+        "de": "der Erhabene, der Ehrwürdige",
+        "tr": "The Victorious"
+      }
+    },
+    {
+      "no": 10,
+      "ar": "الْجَبَّارُ",
+      "name": {
+        "en": "Al-Jabbar",
+        "de": "Al-Dschabbaar",
+        "tr": "Al-Jabbar"
+      },
+      "meaning": {
+        "en": "The Compeller",
+        "de": "der Gewaltige, der Unterwerfer",
+        "tr": "The Compeller"
+      }
+    },
+    {
+      "no": 11,
+      "ar": "الْمُتَكَبِّرُ",
+      "name": {
+        "en": "Al-Mutakabbir",
+        "de": "Al-Mutakabbir",
+        "tr": "Al-Mutakabbir"
+      },
+      "meaning": {
+        "en": "The Greatest",
+        "de": "der Vornehme, der Stolze",
+        "tr": "The Greatest"
+      }
+    },
+    {
+      "no": 12,
+      "ar": "الْخَالِقُ",
+      "name": {
+        "en": "Al-Khaliq",
+        "de": "Al-Chaliq",
+        "tr": "Al-Khaliq"
+      },
+      "meaning": {
+        "en": "The Creator",
+        "de": "der Schöpfer",
+        "tr": "The Creator"
+      }
+    },
+    {
+      "no": 13,
+      "ar": "الْبَارِئُ",
+      "name": {
+        "en": "Al-Bari’",
+        "de": "Al-Bary",
+        "tr": "Al-Bari’"
+      },
+      "meaning": {
+        "en": "The Maker of Order",
+        "de": "der Erschaffer, der alles aus dem Nichts erschuf",
+        "tr": "The Maker of Order"
+      }
+    },
+    {
+      "no": 14,
+      "ar": "الْمُصَوِّرُ",
+      "name": {
+        "en": "Al-Musawwir",
+        "de": "Al-Musawwir",
+        "tr": "Al-Musawwir"
+      },
+      "meaning": {
+        "en": "The Shaper of Beauty",
+        "de": "der Former, der jedem Ding seine Form und Gestalt gibt",
+        "tr": "The Shaper of Beauty"
+      }
+    },
+    {
+      "no": 15,
+      "ar": "الْغَفَّارُ",
+      "name": {
+        "en": "Al-Ghaffar",
+        "de": "Al-Ghaffar",
+        "tr": "Al-Ghaffar"
+      },
+      "meaning": {
+        "en": "The Forgiving",
+        "de": "der große Verzeiher",
+        "tr": "The Forgiving"
+      }
+    },
+    {
+      "no": 16,
+      "ar": "الْقَهَّارُ",
+      "name": {
+        "en": "Al-Qahhar",
+        "de": "Al-Qahhaar",
+        "tr": "Al-Qahhar"
+      },
+      "meaning": {
+        "en": "The Subduer",
+        "de": "der Alles-Bezwinger, niemand kann sich Seinem Willen widersetzen",
+        "tr": "The Subduer"
+      }
+    },
+    {
+      "no": 17,
+      "ar": "الْوَهَّابُ",
+      "name": {
+        "en": "Al-Wahhab",
+        "de": "Al-Wahhab",
+        "tr": "Al-Wahhab"
+      },
+      "meaning": {
+        "en": "The Giver of All",
+        "de": "der Geber und Verleiher",
+        "tr": "The Giver of All"
+      }
+    },
+    {
+      "no": 18,
+      "ar": "الرَّزَّاقُ",
+      "name": {
+        "en": "Ar-Razzaq",
+        "de": "Ar-Rassaq",
+        "tr": "Ar-Razzaq"
+      },
+      "meaning": {
+        "en": "The Sustainer",
+        "de": "der Versorger",
+        "tr": "The Sustainer"
+      }
+    },
+    {
+      "no": 19,
+      "ar": "الْفَتَّاحُ",
+      "name": {
+        "en": "Al-Fattah",
+        "de": "Al-Fattah",
+        "tr": "Al-Fattah"
+      },
+      "meaning": {
+        "en": "The Opener",
+        "de": "der Öffnende, der Öffner der Türen",
+        "tr": "The Opener"
+      }
+    },
+    {
+      "no": 20,
+      "ar": "العَلِيمُ",
+      "name": {
+        "en": "Al-’Alim",
+        "de": "Al-A'liem",
+        "tr": "Al-’Alim"
+      },
+      "meaning": {
+        "en": "The Knower of All",
+        "de": "der Allwissende",
+        "tr": "The Knower of All"
+      }
+    },
+    {
+      "no": 21,
+      "ar": "الْقَابِضُ",
+      "name": {
+        "en": "Al-Qabid",
+        "de": "Al-Qabid",
+        "tr": "Al-Qabid"
+      },
+      "meaning": {
+        "en": "The Constrictor",
+        "de": "der die Gaben nach Seinem Ermessen zurückhält",
+        "tr": "The Constrictor"
+      }
+    },
+    {
+      "no": 22,
+      "ar": "الْبَاسِطُ",
+      "name": {
+        "en": "Al-Basit",
+        "de": "Al-Baaßit",
+        "tr": "Al-Basit"
+      },
+      "meaning": {
+        "en": "The Reliever",
+        "de": "der diese Gaben aber auch ausreichend und großzügig gewährt",
+        "tr": "The Reliever"
+      }
+    },
+    {
+      "no": 23,
+      "ar": "الْخَافِضُ",
+      "name": {
+        "en": "Al-Khafid",
+        "de": "Al-Chaafid",
+        "tr": "Al-Khafid"
+      },
+      "meaning": {
+        "en": "The Abaser",
+        "de": "der Erniedriger der Hochmütigen und zu Unrecht Stolzen",
+        "tr": "The Abaser"
+      }
+    },
+    {
+      "no": 24,
+      "ar": "الرَّافِعُ",
+      "name": {
+        "en": "Ar-Rafi’",
+        "de": "Ar-Raafi'",
+        "tr": "Ar-Rafi’"
+      },
+      "meaning": {
+        "en": "The Exalter",
+        "de": "der Erhörer der Demütigen und Bescheidenen",
+        "tr": "The Exalter"
+      }
+    },
+    {
+      "no": 25,
+      "ar": "الْمُعِزُّ",
+      "name": {
+        "en": "Al-Mu’izz",
+        "de": "Al-Muis",
+        "tr": "Al-Mu’izz"
+      },
+      "meaning": {
+        "en": "The Bestower of Honors",
+        "de": "der Verleiher von wirklicher Ehre",
+        "tr": "The Bestower of Honors"
+      }
+    },
+    {
+      "no": 26,
+      "ar": "المُذِلُّ",
+      "name": {
+        "en": "Al-Mudhill",
+        "de": "Al-Musill",
+        "tr": "Al-Mudhill"
+      },
+      "meaning": {
+        "en": "The Humiliator",
+        "de": "der Demütiger der Unterdrücker ihrer Mitmenschen",
+        "tr": "The Humiliator"
+      }
+    },
+    {
+      "no": 27,
+      "ar": "السَّمِيعُ",
+      "name": {
+        "en": "As-Sami",
+        "de": "As-Sami'",
+        "tr": "As-Sami"
+      },
+      "meaning": {
+        "en": "The Hearer of All",
+        "de": "der Hörende",
+        "tr": "The Hearer of All"
+      }
+    },
+    {
+      "no": 28,
+      "ar": "الْبَصِيرُ",
+      "name": {
+        "en": "Al-Basir",
+        "de": "Al-Basir",
+        "tr": "Al-Basir"
+      },
+      "meaning": {
+        "en": "The Seer of All",
+        "de": "der Sehende",
+        "tr": "The Seer of All"
+      }
+    },
+    {
+      "no": 29,
+      "ar": "الْحَكَمُ",
+      "name": {
+        "en": "Al-Hakam",
+        "de": "Al-Hakam",
+        "tr": "Al-Hakam"
+      },
+      "meaning": {
+        "en": "The Judge",
+        "de": "der weise Richter",
+        "tr": "The Judge"
+      }
+    },
+    {
+      "no": 30,
+      "ar": "الْعَدْلُ",
+      "name": {
+        "en": "Al-’Adl",
+        "de": "Al-Adl",
+        "tr": "Al-’Adl"
+      },
+      "meaning": {
+        "en": "The Just",
+        "de": "der Gerechte",
+        "tr": "The Just"
+      }
+    },
+    {
+      "no": 31,
+      "ar": "اللَّطِيفُ",
+      "name": {
+        "en": "Al-Latif",
+        "de": "Al-Latief",
+        "tr": "Al-Latif"
+      },
+      "meaning": {
+        "en": "The Subtle One",
+        "de": "der das Feinste in allen Dimensionen erfasst, der Feinfühlige, der Gütige",
+        "tr": "The Subtle One"
+      }
+    },
+    {
+      "no": 32,
+      "ar": "الْخَبِيرُ",
+      "name": {
+        "en": "Al-Khabir",
+        "de": "Al-Chabier",
+        "tr": "Al-Khabir"
+      },
+      "meaning": {
+        "en": "The All-Aware",
+        "de": "der Kundige, der um die kleinsten Rechnungen des Herzens Wissende",
+        "tr": "The All-Aware"
+      }
+    },
+    {
+      "no": 33,
+      "ar": "الْحَلِيمُ",
+      "name": {
+        "en": "Al-Halim",
+        "de": "Al-Haliem",
+        "tr": "Al-Halim"
+      },
+      "meaning": {
+        "en": "The Forebearing",
+        "de": "der Nachsichtige, der Mitfühlende",
+        "tr": "The Forebearing"
+      }
+    },
+    {
+      "no": 34,
+      "ar": "الْعَظِيمُ",
+      "name": {
+        "en": "Al-’Azim",
+        "de": "Al-A'siem",
+        "tr": "Al-’Azim"
+      },
+      "meaning": {
+        "en": "The Magnificent",
+        "de": "der Grossartige, der Erhabene",
+        "tr": "The Magnificent"
+      }
+    },
+    {
+      "no": 35,
+      "ar": "الْغَفُورُ",
+      "name": {
+        "en": "Al-Ghafur",
+        "de": "Al-Ghafur",
+        "tr": "Al-Ghafur"
+      },
+      "meaning": {
+        "en": "The Forgiver and Hider of Faults",
+        "de": "der immer wieder Verzeihende",
+        "tr": "The Forgiver and Hider of Faults"
+      }
+    },
+    {
+      "no": 36,
+      "ar": "الشَّكُورُ",
+      "name": {
+        "en": "Ash-Shakur",
+        "de": "Asch-Schakur",
+        "tr": "Ash-Shakur"
+      },
+      "meaning": {
+        "en": "The Rewarder of Thankfulness",
+        "de": "der Dankbare, der seinen Diener auch für die kleinste Tat belohnt",
+        "tr": "The Rewarder of Thankfulness"
+      }
+    },
+    {
+      "no": 37,
+      "ar": "الْعَلِيُّ",
+      "name": {
+        "en": "Al-’Ali",
+        "de": "Al-Aliy",
+        "tr": "Al-’Ali"
+      },
+      "meaning": {
+        "en": "The Highest",
+        "de": "der Höchste",
+        "tr": "The Highest"
+      }
+    },
+    {
+      "no": 38,
+      "ar": "الْكَبِيرُ",
+      "name": {
+        "en": "Al-Kabir",
+        "de": "Al-Kabir",
+        "tr": "Al-Kabir"
+      },
+      "meaning": {
+        "en": "The Greatest",
+        "de": "der unvergleichlich Große",
+        "tr": "The Greatest"
+      }
+    },
+    {
+      "no": 39,
+      "ar": "الْحَفِيظُ",
+      "name": {
+        "en": "Al-Hafiz",
+        "de": "Al-Hafieth",
+        "tr": "Al-Hafiz"
+      },
+      "meaning": {
+        "en": "The Preserver",
+        "de": "der Bewahrer, der Erhalter, der die Taten seiner Diener bis zum jüngsten Tag erhält",
+        "tr": "The Preserver"
+      }
+    },
+    {
+      "no": 40,
+      "ar": "المُقيِت",
+      "name": {
+        "en": "Al-Muqit",
+        "de": "Al-Muqiet",
+        "tr": "Al-Muqit"
+      },
+      "meaning": {
+        "en": "The Nourisher",
+        "de": "der alle Ernährende (sowohl mit materieller als geistiger Nahrung)",
+        "tr": "The Nourisher"
+      }
+    },
+    {
+      "no": 41,
+      "ar": "الْحسِيبُ",
+      "name": {
+        "en": "Al-Hasib",
+        "de": "Al-Hasieb",
+        "tr": "Al-Hasib"
+      },
+      "meaning": {
+        "en": "The Accounter",
+        "de": "der genau Berechnende, der Garant",
+        "tr": "The Accounter"
+      }
+    },
+    {
+      "no": 42,
+      "ar": "الْجَلِيلُ",
+      "name": {
+        "en": "Al-Jalil",
+        "de": "Al-Dschalil",
+        "tr": "Al-Jalil"
+      },
+      "meaning": {
+        "en": "The Mighty",
+        "de": "der Majestätische",
+        "tr": "The Mighty"
+      }
+    },
+    {
+      "no": 43,
+      "ar": "الْكَرِيمُ",
+      "name": {
+        "en": "Al-Karim",
+        "de": "Al-Kariem",
+        "tr": "Al-Karim"
+      },
+      "meaning": {
+        "en": "The Generous",
+        "de": "der Ehrenvolle, der Großzügige",
+        "tr": "The Generous"
+      }
+    },
+    {
+      "no": 44,
+      "ar": "الرَّقِيبُ",
+      "name": {
+        "en": "Ar-Raqib",
+        "de": "Al-Raqieb",
+        "tr": "Ar-Raqib"
+      },
+      "meaning": {
+        "en": "The Watchful One",
+        "de": "der Wachsame",
+        "tr": "The Watchful One"
+      }
+    },
+    {
+      "no": 45,
+      "ar": "الْمُجِيبُ",
+      "name": {
+        "en": "Al-Mujib",
+        "de": "Al-Mudschieb",
+        "tr": "Al-Mujib"
+      },
+      "meaning": {
+        "en": "The Responder to Prayer",
+        "de": "der Erhörer der Gebete",
+        "tr": "The Responder to Prayer"
+      }
+    },
+    {
+      "no": 46,
+      "ar": "الْوَاسِعُ",
+      "name": {
+        "en": "Al-Wasi’",
+        "de": "Al-Wasi'",
+        "tr": "Al-Wasi’"
+      },
+      "meaning": {
+        "en": "The All-Comprehending",
+        "de": "der Weite, der mit Seiner Wohltätigkeit und Seinem Wissen alles Umfassende",
+        "tr": "The All-Comprehending"
+      }
+    },
+    {
+      "no": 47,
+      "ar": "الْحَكِيمُ",
+      "name": {
+        "en": "Al-Hakim",
+        "de": "Al-Hakiem",
+        "tr": "Al-Hakim"
+      },
+      "meaning": {
+        "en": "The Perfectly Wise",
+        "de": "der Allweise",
+        "tr": "The Perfectly Wise"
+      }
+    },
+    {
+      "no": 48,
+      "ar": "الْوَدُودُ",
+      "name": {
+        "en": "Al-Wadud",
+        "de": "Al-Wadud",
+        "tr": "Al-Wadud"
+      },
+      "meaning": {
+        "en": "The Loving One",
+        "de": "der Liebevolle, der alles mit seiner Liebe Umfassende",
+        "tr": "The Loving One"
+      }
+    },
+    {
+      "no": 49,
+      "ar": "الْمَجِيدُ",
+      "name": {
+        "en": "Al-Majíd",
+        "de": "Al-Madschied",
+        "tr": "Al-Majíd"
+      },
+      "meaning": {
+        "en": "The Majestic One",
+        "de": "der Glorreiche",
+        "tr": "The Majestic One"
+      }
+    },
+    {
+      "no": 50,
+      "ar": "الْبَاعِثُ",
+      "name": {
+        "en": "Al-Ba’ith",
+        "de": "Al-Ba`ith",
+        "tr": "Al-Ba’ith"
+      },
+      "meaning": {
+        "en": "The Resurrector",
+        "de": "der die Menschen am jüngsten Tag wieder zum Leben erwecken wird",
+        "tr": "The Resurrector"
+      }
+    },
+    {
+      "no": 51,
+      "ar": "الشَّهِيدُ",
+      "name": {
+        "en": "Ash-Shahid",
+        "de": "Asch-Schahied",
+        "tr": "Ash-Shahid"
+      },
+      "meaning": {
+        "en": "The Witness",
+        "de": "der Zeuge",
+        "tr": "The Witness"
+      }
+    },
+    {
+      "no": 52,
+      "ar": "الْحَقُّ",
+      "name": {
+        "en": "Al-Haqq",
+        "de": "Al-Haq",
+        "tr": "Al-Haqq"
+      },
+      "meaning": {
+        "en": "The Truth",
+        "de": "der Wahre, der Wahrhaftige",
+        "tr": "The Truth"
+      }
+    },
+    {
+      "no": 53,
+      "ar": "الْوَكِيلُ",
+      "name": {
+        "en": "Al-Wakil",
+        "de": "Al-Wakiel",
+        "tr": "Al-Wakil"
+      },
+      "meaning": {
+        "en": "The Trustee",
+        "de": "der Vertrauenswürdige, der Helfer und Bewacher",
+        "tr": "The Trustee"
+      }
+    },
+    {
+      "no": 54,
+      "ar": "الْقَوِيُّ",
+      "name": {
+        "en": "Al-Qawi",
+        "de": "Al-Qawi",
+        "tr": "Al-Qawi"
+      },
+      "meaning": {
+        "en": "The Possessor of All Strength",
+        "de": "der Starke",
+        "tr": "The Possessor of All Strength"
+      }
+    },
+    {
+      "no": 55,
+      "ar": "الْمَتِينُ",
+      "name": {
+        "en": "Al-Matin",
+        "de": "Al-Matien",
+        "tr": "Al-Matin"
+      },
+      "meaning": {
+        "en": "The Forceful One",
+        "de": "der Feste, der Dauerhafte, der einzig wirklich Starke",
+        "tr": "The Forceful One"
+      }
+    },
+    {
+      "no": 56,
+      "ar": "الْوَلِيُّ",
+      "name": {
+        "en": "Al-Wáli",
+        "de": "Al-Waliy",
+        "tr": "Al-Wáli"
+      },
+      "meaning": {
+        "en": "The Governor",
+        "de": "der Schutzherr eines jeden, der seinen Schutz und seine Leitung braucht",
+        "tr": "The Governor"
+      }
+    },
+    {
+      "no": 57,
+      "ar": "الْحَمِيدُ",
+      "name": {
+        "en": "Al-Hamid",
+        "de": "Al-Hamied",
+        "tr": "Al-Hamid"
+      },
+      "meaning": {
+        "en": "The Praised One",
+        "de": "der Preiswürdige, dem aller Dank gehört",
+        "tr": "The Praised One"
+      }
+    },
+    {
+      "no": 58,
+      "ar": "الْمُحْصِي",
+      "name": {
+        "en": "Al-Muhsi",
+        "de": "Al-Muhsy",
+        "tr": "Al-Muhsi"
+      },
+      "meaning": {
+        "en": "The Appraiser",
+        "de": "der alles Aufzeichnende",
+        "tr": "The Appraiser"
+      }
+    },
+    {
+      "no": 59,
+      "ar": "الْمُبْدِئُ",
+      "name": {
+        "en": "Al-Mubdi",
+        "de": "Al-Mubdi",
+        "tr": "Al-Mubdi"
+      },
+      "meaning": {
+        "en": "The Originator",
+        "de": "der Beginnende, der Urheber alles Geschaffenen aus dem Nichts",
+        "tr": "The Originator"
+      }
+    },
+    {
+      "no": 60,
+      "ar": "الْمُعِيدُ",
+      "name": {
+        "en": "Al-Mu’id",
+        "de": "Al-Mu'ied",
+        "tr": "Al-Mu’id"
+      },
+      "meaning": {
+        "en": "The Restorer",
+        "de": "der Wiederholdende, alles wieder zum Leben erwecken wird",
+        "tr": "The Restorer"
+      }
+    },
+    {
+      "no": 61,
+      "ar": "الْمُحْيِي",
+      "name": {
+        "en": "Al-Muhyi",
+        "de": "Al-Muhjie",
+        "tr": "Al-Muhyi"
+      },
+      "meaning": {
+        "en": "The Giver of Life",
+        "de": "der Lebensspendende",
+        "tr": "The Giver of Life"
+      }
+    },
+    {
+      "no": 62,
+      "ar": "الْمُِميتُ",
+      "name": {
+        "en": "Al-Mumit",
+        "de": "Al-Mumiet",
+        "tr": "Al-Mumit"
+      },
+      "meaning": {
+        "en": "The Taker of Life",
+        "de": "der, in dessen Hand der Tod ist",
+        "tr": "The Taker of Life"
+      }
+    },
+    {
+      "no": 63,
+      "ar": "الْحَيُّ",
+      "name": {
+        "en": "Al-Hayy",
+        "de": "Al-Haiy",
+        "tr": "Al-Hayy"
+      },
+      "meaning": {
+        "en": "The Ever Living One",
+        "de": "der aus sich selbst Lebende",
+        "tr": "The Ever Living One"
+      }
+    },
+    {
+      "no": 64,
+      "ar": "الْقَيُّومُ",
+      "name": {
+        "en": "Al-Qayyum",
+        "de": "Al-Qayum",
+        "tr": "Al-Qayyum"
+      },
+      "meaning": {
+        "en": "The Self-Existing One",
+        "de": "der allein Stehende, der Ewige",
+        "tr": "The Self-Existing One"
+      }
+    },
+    {
+      "no": 65,
+      "ar": "الْوَاجِدُ",
+      "name": {
+        "en": "Al-Wajid",
+        "de": "Al-Waadschid",
+        "tr": "Al-Wajid"
+      },
+      "meaning": {
+        "en": "The Finder",
+        "de": "der alles Bekommende und Findende",
+        "tr": "The Finder"
+      }
+    },
+    {
+      "no": 66,
+      "ar": "الْمَاجِدُ",
+      "name": {
+        "en": "Al-Májid",
+        "de": "Al-Maadschid",
+        "tr": "Al-Májid"
+      },
+      "meaning": {
+        "en": "The Glorious",
+        "de": "der Ruhmvolle",
+        "tr": "The Glorious"
+      }
+    },
+    {
+      "no": 67,
+      "ar": "الْواحِدُ",
+      "name": {
+        "en": "Al-Wahid",
+        "de": "Al-Waahid",
+        "tr": "Al-Wahid"
+      },
+      "meaning": {
+        "en": "The Only One",
+        "de": "der Eine, der niemanden neben sich hat",
+        "tr": "The Only One"
+      }
+    },
+    {
+      "no": 68,
+      "ar": "الصَّمَدُ",
+      "name": {
+        "en": "As-Samad",
+        "de": "As-Samad",
+        "tr": "As-Samad"
+      },
+      "meaning": {
+        "en": "The Satisfier of All Needs",
+        "de": "der von allem und jedem Unabhängige",
+        "tr": "The Satisfier of All Needs"
+      }
+    },
+    {
+      "no": 69,
+      "ar": "الْقَادِرُ",
+      "name": {
+        "en": "Al-Qadir",
+        "de": "Al-Quadir",
+        "tr": "Al-Qadir"
+      },
+      "meaning": {
+        "en": "The All Powerful",
+        "de": "der zu allem Fähige, der Besitzer aller Macht und Autorität",
+        "tr": "The All Powerful"
+      }
+    },
+    {
+      "no": 70,
+      "ar": "الْمُقْتَدِرُ",
+      "name": {
+        "en": "Al-Muqtadir",
+        "de": "Al-Muqtadir",
+        "tr": "Al-Muqtadir"
+      },
+      "meaning": {
+        "en": "The Creator of All Power",
+        "de": "der alles Bestimmende",
+        "tr": "The Creator of All Power"
+      }
+    },
+    {
+      "no": 71,
+      "ar": "الْمُقَدِّمُ",
+      "name": {
+        "en": "Al-Muqaddim",
+        "de": "Al-Muqaddim",
+        "tr": "Al-Muqaddim"
+      },
+      "meaning": {
+        "en": "The Expediter",
+        "de": "der Voranstellende",
+        "tr": "The Expediter"
+      }
+    },
+    {
+      "no": 72,
+      "ar": "الْمُؤَخِّرُ",
+      "name": {
+        "en": "Al-Mu’akhkhir",
+        "de": "Al-Mu'achir",
+        "tr": "Al-Mu’akhkhir"
+      },
+      "meaning": {
+        "en": "The Delayer",
+        "de": "der Aufschiebende",
+        "tr": "The Delayer"
+      }
+    },
+    {
+      "no": 73,
+      "ar": "الأوَّلُ",
+      "name": {
+        "en": "Al-Awwal",
+        "de": "Al-Awwal",
+        "tr": "Al-Awwal"
+      },
+      "meaning": {
+        "en": "The First",
+        "de": "der Erste ohne Beginn",
+        "tr": "The First"
+      }
+    },
+    {
+      "no": 74,
+      "ar": "الآخِرُ",
+      "name": {
+        "en": "Al-Akhir",
+        "de": "Al-Aachir",
+        "tr": "Al-Akhir"
+      },
+      "meaning": {
+        "en": "The Last",
+        "de": "der Letzte ohne Ende",
+        "tr": "The Last"
+      }
+    },
+    {
+      "no": 75,
+      "ar": "الظَّاهِرُ",
+      "name": {
+        "en": "Az-Zahir",
+        "de": "As-Saahir",
+        "tr": "Az-Zahir"
+      },
+      "meaning": {
+        "en": "The Manifest One",
+        "de": "der Offenbare, auf dessen Existenz alles Geschaffene klar hinweist",
+        "tr": "The Manifest One"
+      }
+    },
+    {
+      "no": 76,
+      "ar": "الْبَاطِنُ",
+      "name": {
+        "en": "Al-Batin",
+        "de": "Al-Baatin",
+        "tr": "Al-Batin"
+      },
+      "meaning": {
+        "en": "The Hidden One",
+        "de": "der Verborgene, den niemand wirklich begreifen kann",
+        "tr": "The Hidden One"
+      }
+    },
+    {
+      "no": 77,
+      "ar": "الْوَالِي",
+      "name": {
+        "en": "Al-Walí",
+        "de": "Al-Waali",
+        "tr": "Al-Walí"
+      },
+      "meaning": {
+        "en": "The Protecting Friend",
+        "de": "der einzige und absolute Herrscher",
+        "tr": "The Protecting Friend"
+      }
+    },
+    {
+      "no": 78,
+      "ar": "الْمُتَعَالِي",
+      "name": {
+        "en": "Al-Muta’ali",
+        "de": "Al-Muta'aali",
+        "tr": "Al-Muta’ali"
+      },
+      "meaning": {
+        "en": "The Supreme One",
+        "de": "der Reine, der Hohe",
+        "tr": "The Supreme One"
+      }
+    },
+    {
+      "no": 79,
+      "ar": "الْبَرُّ",
+      "name": {
+        "en": "Al-Barr",
+        "de": "Al-Barr",
+        "tr": "Al-Barr"
+      },
+      "meaning": {
+        "en": "The Doer of Good",
+        "de": "der Gute",
+        "tr": "The Doer of Good"
+      }
+    },
+    {
+      "no": 80,
+      "ar": "التَّوابُ",
+      "name": {
+        "en": "At-Tawwab",
+        "de": "At-Tawwab",
+        "tr": "At-Tawwab"
+      },
+      "meaning": {
+        "en": "The Guide to Repentance",
+        "de": "der die Reue seiner Diener Annehmende",
+        "tr": "The Guide to Repentance"
+      }
+    },
+    {
+      "no": 81,
+      "ar": "الْمُنْتَقِمُ",
+      "name": {
+        "en": "Al-Muntaqim",
+        "de": "Al-Muntaqim",
+        "tr": "Al-Muntaqim"
+      },
+      "meaning": {
+        "en": "The Avenger",
+        "de": "der gerechte Vergelter",
+        "tr": "The Avenger"
+      }
+    },
+    {
+      "no": 82,
+      "ar": "العَفُوُّ",
+      "name": {
+        "en": "Al-Afu",
+        "de": "Al-Afwu",
+        "tr": "Al-Afu"
+      },
+      "meaning": {
+        "en": "The Forgiver",
+        "de": "der Vergeber der Sünden",
+        "tr": "The Forgiver"
+      }
+    },
+    {
+      "no": 83,
+      "ar": "الرَّؤُوفُ",
+      "name": {
+        "en": "Ar-Ra’uf",
+        "de": "Ar-Ra'uf",
+        "tr": "Ar-Ra’uf"
+      },
+      "meaning": {
+        "en": "The Clement",
+        "de": "der Mitleidige",
+        "tr": "The Clement"
+      }
+    },
+    {
+      "no": 84,
+      "ar": "مَالِكُ الْمُلْكِ",
+      "name": {
+        "en": "Malik al-Mulk",
+        "de": "Malik-ul-Mulk",
+        "tr": "Malik al-Mulk"
+      },
+      "meaning": {
+        "en": "The Owner of All",
+        "de": "Inhaber aller Reichtümer",
+        "tr": "The Owner of All"
+      }
+    },
+    {
+      "no": 85,
+      "ar": "ذُوالْجَلاَلِ وَالإكْرَامِ",
+      "name": {
+        "en": "Dhul-Jalali Wal-Ikram",
+        "de": "Sul-Dschalali-wal-Ikram",
+        "tr": "Dhul-Jalali Wal-Ikram"
+      },
+      "meaning": {
+        "en": "The Lord of Majesty and Bounty",
+        "de": "derjenige, dem Majestät und Ehre gebühren",
+        "tr": "The Lord of Majesty and Bounty"
+      }
+    },
+    {
+      "no": 86,
+      "ar": "الْمُقْسِطُ",
+      "name": {
+        "en": "Al-Muqsit",
+        "de": "Al-Muqsit",
+        "tr": "Al-Muqsit"
+      },
+      "meaning": {
+        "en": "The Equitable One",
+        "de": "der unparteiisch Richtende",
+        "tr": "The Equitable One"
+      }
+    },
+    {
+      "no": 87,
+      "ar": "الْجَامِعُ",
+      "name": {
+        "en": "Al-Jami",
+        "de": "Al-Dschaami'",
+        "tr": "Al-Jami"
+      },
+      "meaning": {
+        "en": "The Gatherer",
+        "de": "der Versammelnde, der alle Menschen am jüngsten Tag versammeln wird",
+        "tr": "The Gatherer"
+      }
+    },
+    {
+      "no": 88,
+      "ar": "الْغَنِيُّ",
+      "name": {
+        "en": "Al-Ghani",
+        "de": "Al-Ghany",
+        "tr": "Al-Ghani"
+      },
+      "meaning": {
+        "en": "The Rich One",
+        "de": "der Reiche, der niemanden braucht",
+        "tr": "The Rich One"
+      }
+    },
+    {
+      "no": 89,
+      "ar": "الْمُغْنِي",
+      "name": {
+        "en": "Al-Mughni",
+        "de": "Al-Mughni",
+        "tr": "Al-Mughni"
+      },
+      "meaning": {
+        "en": "The Enricher",
+        "de": "der Verleiher der Reichtümer",
+        "tr": "The Enricher"
+      }
+    },
+    {
+      "no": 90,
+      "ar": "ُالمَانِعُ",
+      "name": {
+        "en": "Al-Mani’",
+        "de": "Al-Mani'",
+        "tr": "Al-Mani’"
+      },
+      "meaning": {
+        "en": "The Preventer of Harm",
+        "de": "der Zurückweisende",
+        "tr": "The Preventer of Harm"
+      }
+    },
+    {
+      "no": 91,
+      "ar": "الضَّارَّ",
+      "name": {
+        "en": "Ad-Darr",
+        "de": "Ad-Dhar",
+        "tr": "Ad-Darr"
+      },
+      "meaning": {
+        "en": "The Creator of The Harmful",
+        "de": "der Schaden zufügende",
+        "tr": "The Creator of The Harmful"
+      }
+    },
+    {
+      "no": 92,
+      "ar": "النَّافِعُ",
+      "name": {
+        "en": "An-Nafi",
+        "de": "An-Naafi'",
+        "tr": "An-Nafi"
+      },
+      "meaning": {
+        "en": "The Creator of Good",
+        "de": "der Vorteil gebende",
+        "tr": "The Creator of Good"
+      }
+    },
+    {
+      "no": 93,
+      "ar": "النُّورُ",
+      "name": {
+        "en": "An-Nur",
+        "de": "An-Nur",
+        "tr": "An-Nur"
+      },
+      "meaning": {
+        "en": "The Light",
+        "de": "das Licht",
+        "tr": "The Light"
+      }
+    },
+    {
+      "no": 94,
+      "ar": "الْهَادِي",
+      "name": {
+        "en": "Al-Hadi",
+        "de": "Al-Hadi",
+        "tr": "Al-Hadi"
+      },
+      "meaning": {
+        "en": "The Guide",
+        "de": "der Leitung gebende",
+        "tr": "The Guide"
+      }
+    },
+    {
+      "no": 95,
+      "ar": "الْبَدِيعُ",
+      "name": {
+        "en": "Al-Badi",
+        "de": "Al-Badi'",
+        "tr": "Al-Badi"
+      },
+      "meaning": {
+        "en": "The Originator",
+        "de": "der Schöpfer des Neuen",
+        "tr": "The Originator"
+      }
+    },
+    {
+      "no": 96,
+      "ar": "الْبَاقِِي",
+      "name": {
+        "en": "Al-Baqi",
+        "de": "Al-Baaqi",
+        "tr": "Al-Baqi"
+      },
+      "meaning": {
+        "en": "The Everlasting One",
+        "de": "der ewig Bleibende",
+        "tr": "The Everlasting One"
+      }
+    },
+    {
+      "no": 97,
+      "ar": "الْوَارِثُ",
+      "name": {
+        "en": "Al-Warith",
+        "de": "Al-Waarith",
+        "tr": "Al-Warith"
+      },
+      "meaning": {
+        "en": "The Inheritor of All",
+        "de": "der einzige Erbe, denn außer ihm ist nichts beständig",
+        "tr": "The Inheritor of All"
+      }
+    },
+    {
+      "no": 98,
+      "ar": "الرَّشِيدُ",
+      "name": {
+        "en": "Ar-Rashid",
+        "de": "Ar-Raschied",
+        "tr": "Ar-Rashid"
+      },
+      "meaning": {
+        "en": "The Righteous Teacher",
+        "de": "der Führung gebende",
+        "tr": "The Righteous Teacher"
+      }
+    },
+    {
+      "no": 99,
+      "ar": "الصَّبُورُ",
+      "name": {
+        "en": "As-Sabur",
+        "de": "As-Sabur",
+        "tr": "As-Sabur"
+      },
+      "meaning": {
+        "en": "The Patient One",
+        "de": "der Geduldige.",
+        "tr": "The Patient One"
+      }
+    }
+  ]
+}

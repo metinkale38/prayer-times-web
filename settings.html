@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0288d1">
+  <meta name="description" content="Einstellungen für Sprache, Design, Zahlen, Datum, Hijri-Kalender und Kerahat-Zeiten.">
+  <title>Einstellungen</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/img/icon-64.png" sizes="64x64">
+  <link rel="apple-touch-icon" href="./assets/img/icon-180.png">
+  <link rel="stylesheet" href="./css/tokens.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <script>
+    try {
+      var mode = localStorage.getItem('pt.theme') || 'system';
+      var dark = mode === 'dark' || (mode === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    } catch (e) {}
+  </script>
+</head>
+<body data-page="settings">
+  <a class="skip-link" href="#app-main" data-i18n="web.skipToContent">Zum Inhalt springen</a>
+
+  <app-shell page="settings" title-key="settings">
+    <main id="app-main">
+      <div class="settings-page">
+        <section class="settings-group">
+          <h2 class="settings-group__title" data-i18n="appName">Gebetszeiten</h2>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="language">Sprache</div>
+            </div>
+            <div class="settings-row__control">
+              <select data-setting="language" aria-label="Sprache">
+                <option value="system" data-i18n="systemLanguage">Systemsprache</option>
+                <option value="de">Deutsch</option>
+                <option value="en">English</option>
+                <option value="tr">Türkçe</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="web.theme">Design</div>
+            </div>
+            <div class="settings-row__control">
+              <select data-setting="theme" aria-label="Design">
+                <option value="system" data-i18n="web.themeSystem">System</option>
+                <option value="light" data-i18n="web.themeLight">Hell</option>
+                <option value="dark" data-i18n="web.themeDark">Dunkel</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="web.numbers">Ziffern</div>
+            </div>
+            <div class="settings-row__control">
+              <select data-setting="numbers" aria-label="Ziffern">
+                <option value="normal" data-i18n="web.normal">Normal</option>
+                <option value="arabic" data-i18n="web.arabicNumbers">Arabisch</option>
+                <option value="farsi" data-i18n="web.farsiNumbers">Persisch</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="use12h">Benutze 12 Stunden format</div>
+            </div>
+            <div class="settings-row__control">
+              <label class="switch">
+                <input type="checkbox" data-setting="use12h" aria-label="12 Stunden Format">
+                <span class="switch__track"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="dateFormat">Datumsformat</div>
+            </div>
+            <div class="settings-row__control">
+              <select data-setting="dateformat" data-format-select="greg" aria-label="Datumsformat"></select>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="hdateFormat">Hijri Datumsformat</div>
+            </div>
+            <div class="settings-row__control">
+              <select data-setting="hdateformat" data-format-select="hijri" aria-label="Hijri Datumsformat"></select>
+            </div>
+          </div>
+        </section>
+
+        <section class="settings-group">
+          <h2 class="settings-group__title" data-i18n="dateAndTime">Datum und Uhrzeit</h2>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="hijriCalculation">Hijri-Berechnung</div>
+            </div>
+            <div class="settings-row__control">
+              <select data-setting="hijri_calculation" aria-label="Hijri-Berechnung">
+                <option value="Diyanet">Diyanet</option>
+                <option value="UmmulQura">Umm al-Qura</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="hijriDayOffset">Hijri-Tagesversatz</div>
+            </div>
+            <div class="settings-row__control">
+              <select data-setting="hijri_day_offset" aria-label="Hijri-Tagesversatz"></select>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="vakit_indicator">Gebetszeit Anzeige</div>
+            </div>
+            <div class="settings-row__control">
+              <select data-setting="vakit_indicator" aria-label="Gebetszeit Anzeige">
+                <option value="current" data-i18n="web.current">Aktuelle Gebetszeit</option>
+                <option value="next" data-i18n="web.next">Nächste Gebetszeit</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="settings-group">
+          <h2 class="settings-group__title" data-i18n="kerahatDuration">Makruh Gebetszeit - Dauer</h2>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="kerahatSun">Sonnenaufgang (nach dem Morgengebet)</div>
+            </div>
+            <div class="settings-row__control">
+              <input type="number" min="0" max="120" step="1" data-setting="kerahat_sunrise" aria-label="Kerahat Sonnenaufgang">
+              <span class="muted small" data-i18n="minutes">Minuten</span>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="kerahatIstiwa">Istiwa Zeitpunkt (Vor dem Zuhr Gebet)</div>
+            </div>
+            <div class="settings-row__control">
+              <input type="number" min="0" max="120" step="1" data-setting="kerahat_istiva" aria-label="Kerahat Istiwa">
+              <span class="muted small" data-i18n="minutes">Minuten</span>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="kerahatMaghrib">Sonnenuntergang (vor dem Maghrib Gebet)</div>
+            </div>
+            <div class="settings-row__control">
+              <input type="number" min="0" max="120" step="1" data-setting="kerahat_sunset" aria-label="Kerahat Sonnenuntergang">
+              <span class="muted small" data-i18n="minutes">Minuten</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="settings-group">
+          <h2 class="settings-group__title" data-i18n="web.vibration">Vibration</h2>
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="web.vibrationHint">Vibration beim Zählen</div>
+            </div>
+            <div class="settings-row__control">
+              <select data-setting="vibration" aria-label="Vibration">
+                <option value="0" data-i18n="web.vibrationOff">Aus</option>
+                <option value="1" data-i18n="web.vibrationSoft">Leise</option>
+                <option value="2" data-i18n="web.vibrationStrong">Stark</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="settings-group">
+          <h2 class="settings-group__title" data-i18n="web.storage">Speicher</h2>
+          <div class="settings-row">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="web.storageAdapter">Speicher-Adapter</div>
+              <div class="settings-row__summary" id="storage-summary"></div>
+            </div>
+            <div class="settings-row__control">
+              <button class="btn btn--ghost btn--small" id="install-app" type="button" hidden data-i18n="web.install">App installieren</button>
+            </div>
+          </div>
+          <div class="storage-card" data-i18n="web.storageHint">Die Persistenz läuft über ein austauschbares Interface. In einer Android-WebView kann sie an den nativen Speicher übergeben werden.</div>
+        </section>
+
+        <section class="settings-group settings-group--danger">
+          <h2 class="settings-group__title" data-i18n="web.data">Daten</h2>
+          <button class="settings-row" id="reset-data" type="button">
+            <div class="settings-row__main">
+              <div class="settings-row__title" data-i18n="web.resetData">Alle Daten zurücksetzen</div>
+              <div class="settings-row__summary" data-i18n="web.resetDataConfirm">Alle gespeicherten Städte, Einstellungen und Dhikrs werden gelöscht. Fortfahren?</div>
+            </div>
+            <div class="settings-row__control"><span data-icon="delete"></span></div>
+          </button>
+        </section>
+      </div>
+    </main>
+  </app-shell>
+
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/pages/settings.js"></script>
+</body>
+</html>

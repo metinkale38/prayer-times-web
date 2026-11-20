@@ -1,0 +1,321 @@
+app-shell {
+  display: block;
+  min-height: 100dvh;
+}
+
+.app-frame {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-bar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: calc(var(--bar-height) + var(--safe-top));
+  padding: var(--safe-top) 4px 0 4px;
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: var(--shadow-bar);
+}
+
+.app-bar__title {
+  flex: 1;
+  min-width: 0;
+  padding-inline: 8px;
+  font-size: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-bar__actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.app-bar__actions .icon-btn {
+  color: var(--on-primary);
+}
+
+.app-main {
+  flex: 1;
+  min-height: 0;
+  outline: none;
+}
+
+/* Drawer ------------------------------------------------------------------ */
+
+.drawer-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  background: var(--scrim);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.drawer-scrim.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  width: var(--drawer-width);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--fg);
+  transform: translateX(-102%);
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.25);
+}
+
+.drawer.is-open {
+  transform: none;
+}
+
+.drawer__header {
+  background: var(--primary);
+  color: var(--on-primary);
+  text-align: center;
+  padding: 16px 8px 0;
+  margin-bottom: 16px;
+}
+
+.drawer__logo {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.drawer__app-name {
+  margin-top: 8px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.drawer__version {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.95;
+}
+
+.drawer__bar {
+  height: 8px;
+  margin-top: 16px;
+  background: var(--bg);
+}
+
+.drawer__nav {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 12px;
+}
+
+.drawer__item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 50px;
+  padding: 9px 16px;
+  color: var(--fg);
+  font-size: 16px;
+  text-decoration: none;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.drawer__item:hover {
+  background: var(--surface-2);
+  text-decoration: none;
+}
+
+.drawer__item[aria-current='page'] {
+  font-weight: 700;
+}
+
+.drawer__icon {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  object-fit: contain;
+  opacity: 0.72;
+}
+
+html[data-theme='dark'] .drawer__icon {
+  filter: invert(0.82);
+}
+
+.drawer__footer {
+  margin-top: auto;
+  padding: 16px;
+  color: var(--fg-2);
+  font-size: 12px;
+}
+
+/* Persistent drawer on wide screens --------------------------------------- */
+
+@media (min-width: 1200px) {
+  app-shell {
+    padding-left: var(--drawer-width);
+  }
+
+  .drawer {
+    width: var(--drawer-width);
+    transform: none;
+    box-shadow: none;
+    border-right: 1px solid var(--divider);
+  }
+
+  .drawer-scrim {
+    display: none !important;
+  }
+
+  .app-bar__menu {
+    display: none;
+  }
+}
+
+/* Standalone city page ---------------------------------------------------- */
+
+.layout-standalone {
+  background: var(--bg-2);
+}
+
+.standalone-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: calc(var(--bar-height) + var(--safe-top));
+  padding: var(--safe-top) 6px 0;
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: var(--shadow-bar);
+}
+
+.standalone-bar__title {
+  flex: 1;
+  min-width: 0;
+  font-size: 18px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.standalone-bar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 0 10px 0 4px;
+  color: var(--on-primary);
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: var(--radius-popup);
+}
+
+.standalone-bar__back:hover {
+  background: rgba(255, 255, 255, 0.14);
+  text-decoration: none;
+}
+
+.standalone-main {
+  width: min(var(--content-max), 100%);
+  margin: 0 auto;
+  padding: 16px 12px calc(24px + var(--safe-bottom));
+}
+
+.standalone-footer {
+  padding: 8px 16px calc(24px + var(--safe-bottom));
+  text-align: center;
+  color: var(--fg-2);
+  font-size: 12px;
+}
+
+.standalone-footer a {
+  color: var(--primary);
+}
+
+/* Embed mode: every page can be used without the app chrome ------------- */
+
+body[data-embed='true'] .app-bar,
+body[data-embed='true'] .drawer,
+body[data-embed='true'] .drawer-scrim,
+body[data-embed='true'] .standalone-bar,
+body[data-embed='true'] .standalone-footer {
+  display: none !important;
+}
+
+body[data-embed='true'] app-shell,
+body[data-embed='true'] .layout-standalone {
+  padding-left: 0 !important;
+}
+
+body[data-embed='true'] .app-main,
+body[data-embed='true'] .standalone-main {
+  padding-top: 8px;
+}
+
+/* Page helpers ------------------------------------------------------------ */
+
+.page {
+  width: min(var(--content-max), 100%);
+  margin: 0 auto;
+  padding: 16px 12px calc(24px + var(--safe-bottom));
+}
+
+.page--flush {
+  padding: 0;
+  width: 100%;
+  max-width: none;
+}
+
+.page--narrow {
+  max-width: 640px;
+}
+
+.page-heading {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.page-subheading {
+  color: var(--fg-2);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 420px) {
+  .app-bar__title {
+    font-size: 18px;
+  }
+
+  .page {
+    padding-inline: 10px;
+  }
+}
