@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0288d1">
+  <meta name="description" content="Dhikr-Zähler mit mehreren Dhikrs, Zielen, Farben und Vibration.">
+  <title>Dhikr</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/img/icon-64.png" sizes="64x64">
+  <link rel="apple-touch-icon" href="./assets/img/icon-180.png">
+  <link rel="stylesheet" href="./css/tokens.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <script>
+    try {
+      var mode = localStorage.getItem('pt.theme') || 'system';
+      var dark = mode === 'dark' || (mode === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    } catch (e) {}
+  </script>
+</head>
+<body data-page="dhikr">
+  <a class="skip-link" href="#app-main" data-i18n="web.skipToContent">Zum Inhalt springen</a>
+
+  <app-shell page="dhikr" title-key="dhikr">
+    <div data-app-bar-actions>
+      <select class="dhikr-select" id="dhikr-select" aria-label="Dhikr auswählen"></select>
+      <button class="icon-btn" id="dhikr-add" type="button" data-i18n-aria-label="web.addDhikr" aria-label="Dhikr hinzufügen">
+        <span data-icon="add"></span>
+      </button>
+      <button class="icon-btn" id="dhikr-delete" type="button" data-i18n-aria-label="web.deleteDhikr" aria-label="Dhikr löschen">
+        <span data-icon="close"></span>
+      </button>
+    </div>
+
+    <main id="app-main">
+      <div class="dhikr-page">
+        <input class="dhikr-title-input" id="dhikr-title" maxlength="20" aria-label="Name des Dhikr">
+
+        <div class="dhikr-stage">
+          <div class="dhikr-rounds" id="dhikr-rounds" title="Runden">0</div>
+          <button class="dhikr-circle" id="dhikr-circle" type="button">
+            <svg class="dhikr-ring" viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="dhikr-ring__track" cx="50" cy="50" r="47"></circle>
+              <circle class="dhikr-ring__value" id="dhikr-ring-value" cx="50" cy="50" r="47"></circle>
+            </svg>
+            <span class="dhikr-circle__count" id="dhikr-count">0</span>
+            <span class="dhikr-circle__target" id="dhikr-target">/33</span>
+          </button>
+          <button class="dhikr-reset" id="dhikr-reset" type="button" data-i18n-aria-label="web.reset" aria-label="Zurücksetzen">
+            <span data-icon="reset" data-icon-size="26"></span>
+          </button>
+          <button class="dhikr-vibrate" id="dhikr-vibrate" type="button" data-i18n-aria-label="web.vibration" aria-label="Vibration">
+            <span data-icon="vibrate" data-icon-size="26"></span>
+          </button>
+        </div>
+
+        <div class="dhikr-colors" id="dhikr-colors"></div>
+      </div>
+    </main>
+  </app-shell>
+
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/pages/dhikr.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0288d1">
+  <meta name="description" content="Qibla-Kompass mit 2D-Ansicht, hochauflösender Satellitenkarte und Großkreis-Linie.">
+  <title>Gebetskompass</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/img/icon-64.png" sizes="64x64">
+  <link rel="apple-touch-icon" href="./assets/img/icon-180.png">
+  <link rel="stylesheet" href="./css/tokens.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/vendor-leaflet.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <script>
+    try {
+      var mode = localStorage.getItem('pt.theme') || 'system';
+      var dark = mode === 'dark' || (mode === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    } catch (e) {}
+  </script>
+</head>
+<body data-page="compass">
+  <a class="skip-link" href="#app-main" data-i18n="web.skipToContent">Zum Inhalt springen</a>
+
+  <app-shell page="compass" title-key="compass">
+    <div data-app-bar-actions>
+      <button class="icon-btn" id="compass-toggle" type="button" data-i18n-aria-label="web.map" aria-label="Karte" disabled>
+        <span data-icon="map"></span>
+      </button>
+      <button class="icon-btn" id="compass-locate" type="button" data-i18n-aria-label="web.useLocation" aria-label="Standort verwenden">
+        <span data-icon="location"></span>
+      </button>
+    </div>
+
+    <main id="app-main">
+      <div class="compass-page">
+        <div class="compass-gate" id="compass-gate">
+          <span data-icon="location" data-icon-size="56"></span>
+          <h2 data-i18n="web.locationRequired">Standort erforderlich</h2>
+          <p data-i18n="web.locationRequiredHint">Aktiviere den Standortzugriff, um den Qibla-Kompass zu nutzen.</p>
+          <button class="btn" id="compass-gate-locate" type="button" data-i18n="web.activateLocation">Standort aktivieren</button>
+          <p class="compass-gate__error" id="compass-gate-error"></p>
+          <a class="btn btn--text" id="compass-live-link" href="https://metinkale38.github.io/prayer-times-web/compass.html" target="_blank" rel="noopener" hidden data-i18n="web.openLiveSite">Veröffentlichte Seite öffnen</a>
+        </div>
+
+        <button class="compass-location" id="compass-location" type="button" hidden aria-label="Standort aktualisieren"></button>
+
+        <div class="compass-body" id="compass-2d" hidden>
+          <div class="compass-dial-wrap">
+            <div class="compass-dial" data-i18n-aria-label="web.compassAria" aria-label="Qibla-Kompass">
+              <div class="compass-dial__rose" id="compass-rose">
+                <div class="compass-dial__north">
+                  <span data-icon="north" data-icon-size="46"></span>
+                  <span>N</span>
+                </div>
+                <div class="compass-dial__qibla-arm" id="compass-qibla-arm">
+                  <img class="compass-dial__qibla" src="./assets/img/kaaba.png" alt="" width="64" height="53">
+                </div>
+              </div>
+              <div class="compass-dial__heading" id="compass-heading">--°</div>
+            </div>
+          </div>
+
+          <div class="compass-info">
+            <div class="compass-info__cell">
+              <div class="compass-info__label" data-i18n="web.angle">Winkel</div>
+              <div class="compass-info__value" id="compass-angle">--°</div>
+            </div>
+            <div class="compass-info__cell">
+              <div class="compass-info__label" data-i18n="web.distance">Entfernung</div>
+              <div class="compass-info__value" id="compass-distance">-- km</div>
+            </div>
+            <div class="compass-info__divider"></div>
+          </div>
+
+          <button class="btn btn--text btn--small" id="compass-enable" type="button" hidden data-i18n="web.enableCompass">Kompass aktivieren</button>
+        </div>
+
+        <div class="compass-map-wrap" id="compass-map-wrap" hidden>
+          <div id="compass-map"></div>
+        </div>
+      </div>
+    </main>
+  </app-shell>
+
+  <script src="./js/vendor/leaflet.js"></script>
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/pages/compass.js"></script>
+</body>
+</html>

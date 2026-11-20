@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0288d1">
+  <meta name="description" content="Über die Gebetszeiten-WebApp, ihre Datenquellen und Lizenzen.">
+  <title>Über</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/img/icon-64.png" sizes="64x64">
+  <link rel="apple-touch-icon" href="./assets/img/icon-180.png">
+  <link rel="stylesheet" href="./css/tokens.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <script>
+    try {
+      var mode = localStorage.getItem('pt.theme') || 'system';
+      var dark = mode === 'dark' || (mode === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    } catch (e) {}
+  </script>
+</head>
+<body data-page="about">
+  <a class="skip-link" href="#app-main" data-i18n="web.skipToContent">Zum Inhalt springen</a>
+
+  <app-shell page="about" title-key="about">
+    <main id="app-main">
+      <div class="about-page">
+        <section class="about-card">
+          <div class="about-hero">
+            <img class="about-hero__logo" src="./assets/img/appicon.png" alt="" width="148" height="148">
+            <div class="about-hero__name" data-i18n="appName">Gebetszeiten</div>
+            <div class="about-hero__version"><span data-i18n="web.version">Version</span> <span id="about-version"></span></div>
+            <div class="about-hero__author">metinkale38</div>
+          </div>
+          <p class="about-text" data-i18n="web.aboutText">Eine WebApp-Version der Gebetszeiten-App – mit Gebetszeiten, Qibla-Kompass, 99 Namen, Dhikr und islamischen Feiertagen.</p>
+        </section>
+
+        <section class="about-card">
+          <h2 class="about-section-title" data-i18n="support_development">Entwicklung unterstützen</h2>
+          <a class="about-action" href="https://github.com/metinkale38/prayer-times-android/issues" target="_blank" rel="noopener">
+            <span class="about-action__icon" data-icon="bug"></span>
+            <span class="about-action__main">
+              <span class="about-action__title" data-i18n="report_bug">Fehler melden</span>
+              <span class="about-action__summary" data-i18n="report_bug_sum">Melden Sie Fehler oder schlagen Sie neue Funktionen vor.</span>
+            </span>
+          </a>
+          <a class="about-action" href="mailto:prayer-times-android@mk38.de">
+            <span class="about-action__icon" data-icon="mail"></span>
+            <span class="about-action__main">
+              <span class="about-action__title" data-i18n="mail">E-Mail</span>
+              <span class="about-action__summary" data-i18n="sendMail_sum">Sende mir eine E-Mail!</span>
+            </span>
+          </a>
+          <a class="about-action" href="https://crowdin.com/project/prayer-times-android" target="_blank" rel="noopener">
+            <span class="about-action__icon" data-icon="translate"></span>
+            <span class="about-action__main">
+              <span class="about-action__title" data-i18n="translate">Übersetzen</span>
+              <span class="about-action__summary" data-i18n="translate_sum">Hilf uns Gebetszeiten in weitere Sprachen zu übersetzen</span>
+            </span>
+          </a>
+          <a class="about-action" href="https://play.google.com/store/apps/details?id=com.metinkale.prayer" target="_blank" rel="noopener">
+            <span class="about-action__icon" data-icon="star"></span>
+            <span class="about-action__main">
+              <span class="about-action__title" data-i18n="rate">Bewertung</span>
+              <span class="about-action__summary" data-i18n="rate_desc">Bewerte uns positiv falls du Gebetszeiten magst.</span>
+            </span>
+          </a>
+          <a class="about-action" href="https://github.com/metinkale38/prayer-times-android" target="_blank" rel="noopener">
+            <span class="about-action__icon" data-icon="github"></span>
+            <span class="about-action__main">
+              <span class="about-action__title">GitHub</span>
+              <span class="about-action__summary" data-i18n="github_sum">Forke das Repository und pushe Änderungen oder teile uns Probleme mit.</span>
+            </span>
+          </a>
+          <button class="about-action" id="about-share" type="button">
+            <span class="about-action__icon" data-icon="share"></span>
+            <span class="about-action__main">
+              <span class="about-action__title" data-i18n="share">Teilen</span>
+              <span class="about-action__summary" data-i18n="share_sum">Teile diese App mit anderen!</span>
+            </span>
+          </button>
+        </section>
+
+        <section class="about-card">
+          <h2 class="about-section-title" data-i18n="web.credits">Danksagungen</h2>
+          <div class="about-text">
+            <p><span data-i18n="web.creditAndroid">Android-App:</span> <a href="https://github.com/metinkale38/prayer-times-android" target="_blank" rel="noopener">metinkale38/prayer-times-android</a> (Apache-2.0).</p>
+            <p><span data-i18n="web.creditData">Gebetszeiten und Städte:</span> <a href="https://opt.mk38.de" target="_blank" rel="noopener">opt.mk38.de</a> (Diyanet, IGMG, NamazVakti.com, SemerkandTakvimi).</p>
+            <p><span data-i18n="web.creditMaps">Satellitenkarte:</span> Esri World Imagery (Tiles © Esri, Maxar, Earthstar Geographics). <span data-i18n="web.streetMap">Straßenkarte:</span> © OpenStreetMap contributors.</p>
+            <p><span data-i18n="web.creditLibraries">Bibliotheken:</span> <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2-Clause), <a href="https://htmx.org" target="_blank" rel="noopener">htmx</a> (BSD-2-Clause), <a href="https://github.com/batoulapps/adhan-js" target="_blank" rel="noopener">adhan</a> (MIT), <a href="https://fonts.google.com/specimen/Roboto" target="_blank" rel="noopener">Roboto</a> (Apache-2.0), Noto Naskh Arabic (OFL).</p>
+          </div>
+        </section>
+
+        <section class="about-card">
+          <h2 class="about-section-title" data-i18n="web.license">Lizenz</h2>
+          <a class="about-action" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">
+            <span class="about-action__icon" data-icon="license"></span>
+            <span class="about-action__main">
+              <span class="about-action__title">Apache License 2.0</span>
+              <span class="about-action__summary" data-i18n="license_sum">Prüfe die verwendete Apache License, Version 2.0 Lizenzbedingungen</span>
+            </span>
+          </a>
+        </section>
+
+      </div>
+    </main>
+  </app-shell>
+
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/pages/about.js"></script>
+</body>
+</html>
