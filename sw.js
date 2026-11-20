@@ -1,5 +1,5 @@
 /* Prayer Times WebApp service worker. No build step: bump CACHE_VERSION manually. */
-const CACHE_VERSION = 'pt-web-v2';
+const CACHE_VERSION = 'pt-web-v3';
 const TILE_CACHE = 'pt-tiles-v1';
 const PRECACHE = [
   './',

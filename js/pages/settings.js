@@ -49,17 +49,6 @@ function setControls() {
   });
 }
 
-function storageSummary() {
-  const el = document.getElementById('storage-summary');
-  if (!el) return;
-  const names = {
-    'local-storage': PT.i18n.t('web.storageLocal'),
-    'android-bridge': PT.i18n.t('web.storageAndroid'),
-    memory: PT.i18n.t('web.storageMemory'),
-  };
-  el.textContent = names[PT.storage.adapterName] || PT.storage.adapterName;
-}
-
 async function saveControl(control) {
   const key = control.dataset.setting;
   let value;
@@ -84,7 +73,6 @@ async function saveControl(control) {
 fillFormatSelects();
 fillOffsetSelect();
 setControls();
-storageSummary();
 
 const ARIA_LABELS = {
   language: 'language',
@@ -108,9 +96,10 @@ document.querySelectorAll('[data-setting]').forEach((control) => {
   control.addEventListener('change', () => saveControl(control));
 });
 
+const installGroup = document.getElementById('install-group');
 const installButton = document.getElementById('install-app');
 function showInstall() {
-  if (installButton && PT.installPrompt) installButton.hidden = false;
+  if (installGroup) installGroup.hidden = !PT.installPrompt;
 }
 window.addEventListener('pt:installable', showInstall);
 showInstall();
@@ -119,7 +108,7 @@ installButton?.addEventListener('click', async () => {
   PT.installPrompt.prompt();
   await PT.installPrompt.userChoice;
   PT.installPrompt = null;
-  installButton.hidden = true;
+  if (installGroup) installGroup.hidden = true;
 });
 
 document.getElementById('reset-data')?.addEventListener('click', async () => {

@@ -17,7 +17,6 @@ const ROWS = [
 ];
 
 const list = document.getElementById('missed-list');
-const updated = document.getElementById('missed-updated');
 
 const stored = await PT.storage.get(STORE_KEY, {});
 const data = {
@@ -31,24 +30,9 @@ const data = {
   updatedAt: Number(stored?.updatedAt || 0),
 };
 
-function renderUpdated() {
-  if (!updated) return;
-  if (!data.updatedAt) {
-    updated.hidden = true;
-    return;
-  }
-  updated.hidden = false;
-  const formatter = new Intl.DateTimeFormat(PT.i18n.locale(), {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  });
-  updated.textContent = `${PT.i18n.t('web.lastUpdated')}: ${formatter.format(new Date(data.updatedAt))}`;
-}
-
 async function save() {
   data.updatedAt = Date.now();
   await PT.storage.set(STORE_KEY, data);
-  renderUpdated();
 }
 
 function setValue(key, value, input) {
@@ -79,4 +63,3 @@ function renderRows() {
 }
 
 renderRows();
-renderUpdated();

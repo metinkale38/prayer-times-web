@@ -23,7 +23,6 @@ const qiblaArm = document.getElementById('compass-qibla-arm');
 const headingEl = document.getElementById('compass-heading');
 const angleEl = document.getElementById('compass-angle');
 const distanceEl = document.getElementById('compass-distance');
-const sensorNote = document.getElementById('compass-sensor-note');
 const enableButton = document.getElementById('compass-enable');
 const body2d = document.getElementById('compass-2d');
 const mapWrap = document.getElementById('compass-map-wrap');
@@ -100,26 +99,18 @@ function renderDial() {
   }
 }
 
-function showSensorMessage(message) {
-  if (!sensorNote) return;
-  sensorNote.textContent = message;
-  sensorNote.hidden = !message;
-}
-
 function startSensor() {
-  showSensorMessage('');
   if (enableButton) enableButton.hidden = true;
   if (!CompassSensor.supported()) {
-    showSensorMessage(PT.i18n.t('web.compassSensorMissing'));
+    showToast(PT.i18n.t('web.compassSensorMissing'));
     return;
   }
   const started = sensor.start((value) => {
     heading = value;
-    showSensorMessage('');
     renderDial();
   });
   if (!started && !sensorActive) {
-    showSensorMessage(PT.i18n.t('web.compassSensorMissing'));
+    showToast(PT.i18n.t('web.compassSensorMissing'));
     return;
   }
   sensorActive = true;
@@ -127,7 +118,7 @@ function startSensor() {
   sensorTimer = window.setTimeout(() => {
     if (heading == null) {
       const needsPermission = typeof DeviceOrientationEvent?.requestPermission === 'function';
-      showSensorMessage(PT.i18n.t(needsPermission ? 'web.sensorPermissionHint' : 'web.compassSensorMissing'));
+      showToast(PT.i18n.t(needsPermission ? 'web.sensorPermissionHint' : 'web.compassSensorMissing'));
       if (needsPermission && enableButton) enableButton.hidden = false;
     }
   }, 1800);
@@ -137,14 +128,14 @@ async function enableSensor() {
   try {
     const granted = await sensor.requestPermission();
     if (!granted) {
-      showSensorMessage(PT.i18n.t('web.locationDenied'));
+      showToast(PT.i18n.t('web.locationDenied'));
       return;
     }
     startSensor();
     if (enableButton) enableButton.hidden = true;
   } catch (error) {
     console.warn('[compass] sensor permission', error);
-    showSensorMessage(PT.i18n.t('web.locationDenied'));
+    showToast(PT.i18n.t('web.locationDenied'));
   }
 }
 

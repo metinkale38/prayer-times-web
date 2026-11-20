@@ -77,7 +77,6 @@ async function load() {
     root.innerHTML = `
       <div class="empty-state">
         <h2>${escapeHtml(PT.i18n.t('web.apiUnavailable'))}</h2>
-        <p>${escapeHtml(PT.i18n.t('web.refreshHint'))}</p>
         <button class="btn" type="button" id="city-retry">${escapeHtml(PT.i18n.t('web.retry'))}</button>
       </div>
     `;

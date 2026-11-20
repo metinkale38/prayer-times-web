@@ -188,18 +188,14 @@
           </div>
         </section>
 
-        <section class="settings-group">
-          <h2 class="settings-group__title" data-i18n="web.storage">Speicher</h2>
-          <div class="settings-row">
+        <section class="settings-group" id="install-group" hidden>
+          <h2 class="settings-group__title" data-i18n="web.install">App installieren</h2>
+          <button class="settings-row" id="install-app" type="button">
             <div class="settings-row__main">
-              <div class="settings-row__title" data-i18n="web.storageAdapter">Speicher-Adapter</div>
-              <div class="settings-row__summary" id="storage-summary"></div>
+              <div class="settings-row__title" data-i18n="web.installHint">Zum Startbildschirm hinzufügen</div>
             </div>
-            <div class="settings-row__control">
-              <button class="btn btn--ghost btn--small" id="install-app" type="button" hidden data-i18n="web.install">App installieren</button>
-            </div>
-          </div>
-          <div class="storage-card" data-i18n="web.storageHint">Die Persistenz läuft über ein austauschbares Interface. In einer Android-WebView kann sie an den nativen Speicher übergeben werden.</div>
+            <div class="settings-row__control"><span data-icon="download"></span></div>
+          </button>
         </section>
 
         <section class="settings-group settings-group--danger">

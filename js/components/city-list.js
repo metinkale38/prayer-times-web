@@ -12,7 +12,6 @@ export function renderCityList(container, emptyContainer, { cities, onSelect, on
     emptyContainer.innerHTML = `
       <div class="city-empty">
         <h2>${escapeHtml(PT.i18n.t('web.noCities'))}</h2>
-        <p>${escapeHtml(PT.i18n.t('web.noCitiesHint'))}</p>
         <div class="btn-row">
           <button class="btn" type="button" data-empty-add>${iconSvg('add', { size: 18 })} ${escapeHtml(PT.i18n.t('web.addCity'))}</button>
           <button class="btn btn--ghost" type="button" data-empty-location>${iconSvg('location', { size: 18 })} ${escapeHtml(PT.i18n.t('web.useLocation'))}</button>

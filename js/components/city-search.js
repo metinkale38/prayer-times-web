@@ -25,7 +25,6 @@ function buildDialog() {
         </div>
         <div class="city-search__status" data-status></div>
         <div class="city-search__results" data-results></div>
-        <div class="city-search__hint">${escapeHtml(PT.i18n.t('web.autoLocation'))}</div>
       </div>
     </div>
   `;

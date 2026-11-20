@@ -316,7 +316,7 @@ function openCitySettings(city, card) {
             <option value="both">${escapeHtml(PT.i18n.t('web.both'))}</option>
           </select>
         </div>`
-    : `<p class="notice">${escapeHtml(PT.i18n.t('web.asrOnlyCalc'))}</p>`;
+    : '';
   dialog.innerHTML = `
     <div class="modal__header">
       <div class="modal__title">${escapeHtml(city.name)}</div>

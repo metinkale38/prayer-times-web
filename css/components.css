@@ -1977,15 +1977,6 @@ html[data-theme='dark'] .compass-dial__north span {
   appearance: textfield;
 }
 
-.missed-updated,
-.missed-hint {
-  flex: none;
-  padding: 4px 8px;
-  text-align: center;
-  color: var(--fg-2);
-  font-size: 12px;
-}
-
 @media (max-width: 360px) {
   .missed-row {
     padding-inline: 12px;
