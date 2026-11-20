@@ -167,13 +167,21 @@ export function fitText(el, { ratio = 0.65, min = 10 } = {}) {
   const container = el.parentElement;
   if (!container) return;
   const height = container.clientHeight;
-  const width = container.clientWidth;
+  const fitToCell = el.dataset.fitWidth === 'self';
+  const width = fitToCell ? el.clientWidth : container.clientWidth;
+  const safety = fitToCell ? 1.02 : 1.1;
   if (height <= 0 || width <= 0) return;
+  const contentWidth = () => {
+    if (!fitToCell) return el.scrollWidth;
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    return range.getBoundingClientRect().width;
+  };
   let size = height * ratio;
   el.style.fontSize = `${size}px`;
   el.style.whiteSpace = 'nowrap';
   let guard = 0;
-  while (el.scrollWidth * 1.1 > width && size > min && guard < 40) {
+  while (contentWidth() * safety > width && size > min && guard < 40) {
     size -= height * 0.05;
     el.style.fontSize = `${size}px`;
     guard += 1;

@@ -44,7 +44,7 @@ export function createCityCard(city) {
       ${ROW_KEYS.map((key) => `
         <div class="prayer-row" data-prayer="${key}">
           <div class="prayer-row__label" data-fit-text></div>
-          <div class="prayer-row__time" data-fit-text></div>
+          <div class="prayer-row__time" data-fit-text data-fit-width="self"></div>
         </div>
       `).join('')}
     </div>
