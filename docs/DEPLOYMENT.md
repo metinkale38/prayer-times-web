@@ -11,19 +11,21 @@ This project path is fine because CORS compares scheme + host, not the path.
 
 1. Push the repository to GitHub.
 2. Open **Settings → Pages**.
-3. Set **Source** to **GitHub Actions**.
-4. Push to `main` (or run **Deploy static WebApp** manually).
+3. Set **Source** to **Deploy from a branch**.
+4. Select branch **`gh-pages`**, folder **`/ (root)`**.
+5. Push to `main` (or run **Deploy static WebApp** manually).
 
 The workflow is `.github/workflows/deploy.yml`:
 
 ```text
-checkout → node tools/build-static.mjs → configure-pages
-        → upload-pages-artifact(dist) → deploy-pages
+checkout → node tools/build-static.mjs → publish dist/ to gh-pages
 ```
 
-The workflow requests Pages enablement, but the repository setting must permit
-GitHub Actions. If the `configure-pages` step reports that Pages is not enabled,
-enable it once in Settings → Pages.
+The workflow uses `peaceiris/actions-gh-pages` to publish the staged `dist/`
+folder to the `gh-pages` branch. This avoids the Pages artifact API, which was
+intermittently failing with `No artifacts named "github-pages"`. Do not switch
+the Pages source back to GitHub Actions unless the workflow is changed to use
+`upload-pages-artifact`/`deploy-pages` again.
 
 ### Releasing
 
@@ -66,7 +68,8 @@ The dev server has no authentication; only expose it on trusted networks.
 | Symptom | Cause / fix |
 |---|---|
 | City search returns 403 | Browser talks to the API from a non-allowlisted origin. Use the local proxy or GitHub Pages. |
-| Pages deploy fails at configure-pages | Enable Pages → GitHub Actions in repository settings. |
+| Pages deploy fails | Check that Pages uses branch `gh-pages` / `/ (root)` and that the workflow has `contents: write`. |
+| Site shows an older version | Bump `CACHE_VERSION` in `sw.js`, redeploy, then hard reload. |
 | Stale CSS/JS after deploy | Bump `CACHE_VERSION` in `sw.js`; hard reload. |
 | No PWA/install prompt on LAN | Plain HTTP is not a secure context. Use HTTPS or localhost. |
 | Compass shows the location gate on LAN | Geolocation/compass require a secure context. Open the live HTTPS URL via the link in the gate. |
@@ -79,6 +82,6 @@ The dev server has no authentication; only expose it on trusted networks.
 
 ## Rollback
 
-Revert the commit on `main` and push. The Pages workflow redeploys the previous
-static state. If the service worker is involved, also bump `CACHE_VERSION` so
-clients pick up the rollback promptly.
+Revert the commit on `main` and push. The workflow republishes the previous
+static state to `gh-pages`. If the service worker is involved, also bump
+`CACHE_VERSION` so clients pick up the rollback promptly.

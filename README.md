@@ -68,12 +68,13 @@ The GitHub Actions workflow `.github/workflows/deploy.yml`:
 
 1. checks out the repo,
 2. runs `node tools/build-static.mjs`,
-3. uploads `dist/` as the Pages artifact,
-4. deploys it with `actions/deploy-pages`.
+3. publishes `dist/` to the `gh-pages` branch with
+   `peaceiris/actions-gh-pages`.
 
-On the repository, enable **Settings → Pages → Source: GitHub Actions** (the
-workflow also requests Pages enablement, but the repository setting must allow
-it). Pushing to `main` or running the workflow manually deploys the site.
+On the repository, set **Settings → Pages → Source: Deploy from a branch** and
+choose branch **`gh-pages`**, folder **`/ (root)`**. Pushing to `main` or running
+the workflow manually deploys the site. The branch-based publish avoids the
+intermittent Pages artifact API failure.
 
 The API allowlist is origin-based (`https://metinkale38.github.io`), so the
 project sub-path `/prayer-times-web/` is fine. A custom domain would need to be
